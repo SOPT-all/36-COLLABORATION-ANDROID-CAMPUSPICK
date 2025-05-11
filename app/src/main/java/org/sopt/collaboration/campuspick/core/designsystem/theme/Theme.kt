@@ -1,6 +1,5 @@
-package org.sopt.collaboration.campuspick.ui.theme
+package org.sopt.collaboration.campuspick.core.designsystem.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

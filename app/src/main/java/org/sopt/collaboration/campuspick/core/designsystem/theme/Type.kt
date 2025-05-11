@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.ui.theme
+package org.sopt.collaboration.campuspick.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
