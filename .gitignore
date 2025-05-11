@@ -161,6 +161,9 @@ proguard/
 *~
 *.swp
 
+# macOS #
+.DS_Store
+
 # Keystore files
 
 # Google Services (e.g. APIs or Firebase)
