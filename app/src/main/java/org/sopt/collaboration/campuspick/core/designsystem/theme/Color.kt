@@ -51,4 +51,4 @@ val defaultCampuspickColors = CampuspickColors(
     Gray5 = Gray5
 )
 
-val LocalCampuspickColors = staticCompositionLocalOf { defaultCampuspickColors }
+val LocalCampuspickColorsProvider = staticCompositionLocalOf { defaultCampuspickColors }

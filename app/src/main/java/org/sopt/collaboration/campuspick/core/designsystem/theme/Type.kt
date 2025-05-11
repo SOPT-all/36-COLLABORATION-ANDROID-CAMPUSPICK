@@ -96,4 +96,4 @@ val defaultCampuspickTypography = CampuspickTypography(
     )
 )
 
-val LocalCampuspickTypography = staticCompositionLocalOf { defaultCampuspickTypography }
+val LocalCampuspickTypographyProvider = staticCompositionLocalOf { defaultCampuspickTypography }
