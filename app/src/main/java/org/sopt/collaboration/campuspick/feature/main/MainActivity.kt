@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.ui.Modifier
-import org.sopt.collaboration.campuspick.core.designsystem.theme.MyApplicationTheme
+import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
 
-            MyApplicationTheme {
+            CampuspickTheme {
                 MainScreen(
                     navigator = navigator,
                     modifier = Modifier
