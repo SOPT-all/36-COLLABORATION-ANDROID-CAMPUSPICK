@@ -80,7 +80,7 @@ fun CampuspickSearchBar(
                 IconButton(onClick = onSearchClick) {
                     Icon(
                         modifier = Modifier.size(18.dp),
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_club_search),
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                         tint = CampuspickTheme.colors.Gray2,
                         contentDescription = "search",
                     )
