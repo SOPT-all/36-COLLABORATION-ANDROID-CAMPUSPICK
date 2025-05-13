@@ -27,10 +27,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 
 @Composable
 fun CampuspickSearchBar(
@@ -90,7 +90,7 @@ fun CampuspickSearchBar(
     )
 }
 
-@Preview
+@DefaultPreview
 @Composable
 private fun SearchBarPreview() {
     CampuspickTheme {

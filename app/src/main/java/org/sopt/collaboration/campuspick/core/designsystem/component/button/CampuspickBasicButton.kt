@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 
 @Composable
 fun CampuspickBasicButton(
@@ -51,7 +51,7 @@ fun CampuspickBasicButton(
     )
 }
 
-@Preview
+@DefaultPreview
 @Composable
 private fun BasicButtonPreview() {
     CampuspickTheme {

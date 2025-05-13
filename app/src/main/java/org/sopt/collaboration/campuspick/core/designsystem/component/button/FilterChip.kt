@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 
 @Composable
 fun FilterChip(
@@ -37,7 +37,7 @@ fun FilterChip(
     )
 }
 
-@Preview
+@DefaultPreview
 @Composable
 private fun FilterChipPreview() {
     CampuspickTheme {

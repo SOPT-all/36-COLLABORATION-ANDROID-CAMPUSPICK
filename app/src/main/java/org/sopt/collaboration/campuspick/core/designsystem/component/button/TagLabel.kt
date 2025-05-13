@@ -3,9 +3,9 @@ package org.sopt.collaboration.campuspick.core.designsystem.component.button
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 
 @Composable
 fun TagLabel(
@@ -23,7 +23,7 @@ fun TagLabel(
     )
 }
 
-@Preview
+@DefaultPreview
 @Composable
 private fun PopularChipPreview() {
     CampuspickTheme {
