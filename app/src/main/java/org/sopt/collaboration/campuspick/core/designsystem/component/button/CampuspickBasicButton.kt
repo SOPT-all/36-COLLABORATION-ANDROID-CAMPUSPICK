@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.core.ui.extension.customClickable
 import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 
 @Composable
@@ -34,8 +35,8 @@ fun CampuspickBasicButton(
         color = textColor,
         style = textStyle,
         modifier = modifier
-            .clickable(
-                enabled = clickable,
+            .customClickable(
+                rippleEnabled = false,
                 onClick = onClick
             )
             .clip(RoundedCornerShape(25.dp))
