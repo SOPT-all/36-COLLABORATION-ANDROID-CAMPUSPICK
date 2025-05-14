@@ -18,6 +18,9 @@ fun NavGraphBuilder.searchNavGraph(
     modifier: Modifier = Modifier,
 ) {
     composable<Route.Search> {
-        SearchRoute()
+        SearchRoute(
+            padding = padding,
+            modifier = modifier
+        )
     }
 }
