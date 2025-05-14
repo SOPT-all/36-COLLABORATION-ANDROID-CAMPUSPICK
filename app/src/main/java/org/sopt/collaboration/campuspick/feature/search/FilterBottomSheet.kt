@@ -89,39 +89,45 @@ fun FilterBottomSheet(
                     val filterSection = listOf<FilterSection>(
                         FilterSection(
                             title = "마감 기한",
-                            keywords = DeadLine.entries.mapNotNull { it.label.takeIf { label -> label.isNotBlank() } },
-                            keywordType = { label: String ->
+                            keywords = DeadLine.entries.filter {
+                                it != DeadLine.EMPTY
+                            }.map { it.label },
+                            keywordType = { label ->
                                 FilterChip(
                                     buttonText = label,
                                     isSelected = bottomSheetDeadLineSelected == label,
                                     onClick = {
-                                        DeadLine.fromLabel(label)?.let(updateSelectedDeadLine)
+                                        DeadLine.fromLabel(label).let(updateSelectedDeadLine)
                                     }
                                 )
                             }
                         ),
                         FilterSection(
                             title = "지역",
-                            keywords = Location.entries.mapNotNull { it.label.takeIf { label -> label.isNotBlank() } },
+                            keywords = Location.entries.filter {
+                                it != Location.EMPTY
+                            }.map { it.label },
                             keywordType = { label ->
                                 FilterChip(
                                     buttonText = label,
                                     isSelected = bottomSheetLocationSelected == label,
                                     onClick = {
-                                        Location.fromLabel(label)?.let(updateSelectedLocation)
+                                        Location.fromLabel(label).let(updateSelectedLocation)
                                     }
                                 )
                             }
                         ),
                         FilterSection(
                             title = "활동 선호 요일",
-                            keywords = PreferDay.entries.mapNotNull { it.label.takeIf { label -> label.isNotBlank() } },
+                            keywords = PreferDay.entries.filter {
+                                it != PreferDay.EMPTY
+                            }.map { it.label },
                             keywordType = { label ->
                                 FilterChip(
                                     buttonText = label,
                                     isSelected = bottomSheetPreferDaySelected == label,
                                     onClick = {
-                                        PreferDay.fromLabel(label)?.let(updateSelectedPreferDay)
+                                        PreferDay.fromLabel(label).let(updateSelectedPreferDay)
                                     }
                                 )
                             }

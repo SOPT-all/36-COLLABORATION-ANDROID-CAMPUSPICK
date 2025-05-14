@@ -9,8 +9,8 @@ enum class DeadLine(val label: String) {
     OVER_MONTH("30일 이상");
 
     companion object {
-        fun DeadLine.Companion.fromLabel(label: String): DeadLine? {
-            return entries.find { it.label == label }
+        fun DeadLine.Companion.fromLabel(label: String): DeadLine {
+            return entries.find { it.label == label } ?: EMPTY
         }
     }
 }
@@ -29,8 +29,8 @@ enum class Location(val label: String) {
     ETC("기타");
 
     companion object {
-        fun Location.Companion.fromLabel(label: String): Location? {
-            return Location.entries.find { it.label == label }
+        fun Location.Companion.fromLabel(label: String): Location {
+            return Location.entries.find { it.label == label } ?: EMPTY
         }
     }
 }
@@ -46,8 +46,8 @@ enum class PreferDay(val label: String) {
     WEEKEND("주말");
 
     companion object {
-        fun PreferDay.Companion.fromLabel(label: String): PreferDay? {
-            return PreferDay.entries.find { it.label == label }
+        fun PreferDay.Companion.fromLabel(label: String): PreferDay {
+            return PreferDay.entries.find { it.label == label } ?: EMPTY
         }
     }
 }
