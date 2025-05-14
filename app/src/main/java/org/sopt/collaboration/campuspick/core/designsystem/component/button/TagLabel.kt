@@ -13,7 +13,6 @@ fun TagLabel(
 ) {
     CampuspickBasicButton(
         buttonText = buttonText,
-        clickable = false,
         onClick = { },
         paddingValues = PaddingValues(horizontal = 8.dp, vertical = 3.dp),
         textStyle = CampuspickTheme.typography.caption4,

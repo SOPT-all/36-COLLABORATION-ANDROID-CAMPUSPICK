@@ -32,7 +32,6 @@ fun CategoryButton(
     }
     CampuspickBasicButton(
         buttonText = buttonText,
-        clickable = true,
         onClick = onClick,
         paddingValues = PaddingValues(horizontal = 10.dp, vertical = 5.dp),
         textStyle = textStyle.value,

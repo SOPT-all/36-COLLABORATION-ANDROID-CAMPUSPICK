@@ -3,12 +3,15 @@ package org.sopt.collaboration.campuspick.core.designsystem.component.button
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -21,19 +24,16 @@ import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 @Composable
 fun CampuspickBasicButton(
     buttonText: String,
-    clickable: Boolean,
     onClick: () -> Unit,
     paddingValues: PaddingValues,
     textStyle: TextStyle,
     textColor: Color,
     backgroundColor: Color,
     outlineColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    content: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Text(
-        text = buttonText,
-        color = textColor,
-        style = textStyle,
+    Row(
         modifier = modifier
             .customClickable(
                 rippleEnabled = false,
@@ -48,8 +48,17 @@ fun CampuspickBasicButton(
                 ),
                 shape = RoundedCornerShape(25.dp)
             )
-            .padding(paddingValues)
-    )
+            .padding(paddingValues),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = buttonText,
+            color = textColor,
+            style = textStyle,
+        )
+        content?.invoke(this)
+    }
 }
 
 @DefaultPreview
@@ -58,13 +67,13 @@ private fun BasicButtonPreview() {
     CampuspickTheme {
         CampuspickBasicButton(
             buttonText = "버튼",
-            clickable = true,
             onClick = {},
             paddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
             textStyle = CampuspickTheme.typography.body2,
             textColor = CampuspickTheme.colors.White,
             backgroundColor = CampuspickTheme.colors.Blue,
-            outlineColor = Color.Transparent
+            outlineColor = Color.Transparent,
+            content = null
         )
     }
 }
