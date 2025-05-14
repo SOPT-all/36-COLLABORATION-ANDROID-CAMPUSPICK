@@ -56,3 +56,12 @@ fun Modifier.addFocusCleaner(focusManager: FocusManager): Modifier {
         })
     }
 }
+
+fun Modifier.ignoreNextModifiers(): Modifier {
+    return object : Modifier by this {
+
+        override fun then(other: Modifier): Modifier {
+            return this
+        }
+    }
+}
