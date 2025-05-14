@@ -3,8 +3,6 @@ package org.sopt.collaboration.campuspick.feature.search
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -17,9 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.collaboration.campuspick.R
-import org.sopt.collaboration.campuspick.core.designsystem.component.button.CampuspickBasicButton
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
+import org.sopt.collaboration.campuspick.domain.model.DeadLine
+import org.sopt.collaboration.campuspick.domain.model.Location
+import org.sopt.collaboration.campuspick.domain.model.PreferDay
+import org.sopt.collaboration.campuspick.feature.search.component.RecentSearchKeyword
 import org.sopt.collaboration.campuspick.feature.search.component.SearchHeader
 import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 
@@ -32,11 +33,17 @@ fun SearchRoute(
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
 
-
-
     SearchScreen(
         inputSearchValue = uiState.value.inputSearch,
         updateInputSearch = viewModel::updateInputSearch,
+        showFilterBottomSheet = uiState.value.showFilterBottomSheet,
+        updateBottomSheetShown = viewModel::updateBottomSheetShown,
+        bottomSheetDeadLineSelected = uiState.value.filterDeadLine.label,
+        updateSelectedDeadLine = viewModel::updateSelectedDeadLine,
+        bottomSheetLocationSelected = uiState.value.filterLocation.label,
+        updateSelectedLocation = viewModel::updateSelectedLocation,
+        bottomSheetPreferDaySelected = uiState.value.filterPreferDay.label,
+        updateSelectedPreferDay = viewModel::updateSelectedPreferDay,
         modifier = modifier
             .addFocusCleaner(focusManager)
             .padding(padding)
@@ -47,12 +54,21 @@ fun SearchRoute(
 fun SearchScreen(
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
+    showFilterBottomSheet: Boolean,
+    updateBottomSheetShown: (Boolean) -> Unit,
+    bottomSheetDeadLineSelected: String,
+    updateSelectedDeadLine: (DeadLine) -> Unit,
+    bottomSheetLocationSelected: String,
+    updateSelectedLocation: (Location) -> Unit,
+    bottomSheetPreferDaySelected: String,
+    updateSelectedPreferDay: (PreferDay) -> Unit,
     modifier: Modifier,
 ) {
     Column(modifier = modifier) {
         SearchHeader(
             inputSearchValue = inputSearchValue,
             updateInputSearch = updateInputSearch,
+            updateBottomSheetShown = updateBottomSheetShown,
             modifier = modifier.padding(horizontal = 15.dp)
         )
         HorizontalDivider(
@@ -97,27 +113,16 @@ fun SearchScreen(
             contentDescription = "advertisement",
             modifier = Modifier.padding(horizontal = 15.dp)
         )
-    }
-}
 
-@Composable
-fun RecentSearchKeyword(
-    buttonText: String,
-    textColor: Color,
-    outlineColor: Color,
-    content: (@Composable RowScope.() -> Unit)? = null
-) {
-    Row {
-        CampuspickBasicButton(
-            buttonText = buttonText,
-            onClick = { },
-            paddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
-            textStyle = CampuspickTheme.typography.caption2,
-            textColor = textColor,
-            backgroundColor = CampuspickTheme.colors.White,
-            outlineColor = outlineColor,
-            modifier = Modifier.padding(end = 11.dp),
-            content = content
+        FilterBottomSheet(
+            showFilterBottomSheet = showFilterBottomSheet,
+            onDismiss = updateBottomSheetShown,
+            bottomSheetDeadLineSelected = bottomSheetDeadLineSelected,
+            updateSelectedDeadLine = updateSelectedDeadLine,
+            bottomSheetLocationSelected = bottomSheetLocationSelected,
+            updateSelectedLocation = updateSelectedLocation,
+            bottomSheetPreferDaySelected = bottomSheetPreferDaySelected,
+            updateSelectedPreferDay = updateSelectedPreferDay,
         )
     }
 }

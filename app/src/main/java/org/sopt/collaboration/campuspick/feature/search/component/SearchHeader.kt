@@ -26,6 +26,7 @@ import org.sopt.collaboration.campuspick.core.ui.extension.customClickable
 fun SearchHeader(
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
+    updateBottomSheetShown: (Boolean) -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -78,6 +79,10 @@ fun SearchHeader(
                     .background(
                         color = CampuspickTheme.colors.Gray4,
                         shape = CircleShape
+                    )
+                    .customClickable(
+                        rippleEnabled = false,
+                        onClick = { updateBottomSheetShown(true) }
                     )
             ) {
                 Icon(
