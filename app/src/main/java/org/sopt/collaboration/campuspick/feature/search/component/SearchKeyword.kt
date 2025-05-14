@@ -1,0 +1,40 @@
+package org.sopt.collaboration.campuspick.feature.search.component
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SearchKeyword(
+    title: String,
+    keywords: List<String>,
+    modifier: Modifier,
+    keywordType: (@Composable (String) -> Unit)? = null
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = title,
+            style = CampuspickTheme.typography.body2.copy(fontWeight = FontWeight.ExtraBold),
+            color = CampuspickTheme.colors.Black,
+            modifier = Modifier.padding(bottom = 20.dp)
+        )
+        FlowRow(
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            keywords.forEach {
+                keywordType?.invoke(it)
+            }
+        }
+    }
+}
