@@ -18,11 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
+import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.feature.main.MainTab
 
 @Composable
@@ -59,8 +59,10 @@ private fun RowScope.MainBottomBarItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val bottomBarColor = Color.Gray
-    // 컬러 세팅하면 바꿔주세요
+    val bottomBarIconColor =
+        if (selected) CampuspickTheme.colors.Blue else CampuspickTheme.colors.Gray2
+    val bottomBarTextColor =
+        if (selected) CampuspickTheme.colors.Blue else CampuspickTheme.colors.Gray1
 
     Column(
         modifier = modifier
@@ -82,13 +84,13 @@ private fun RowScope.MainBottomBarItem(
             modifier = Modifier
                 .size(22.dp)
                 .padding(bottom = 5.dp),
-            tint = bottomBarColor
+            tint = bottomBarIconColor
         )
         Text(
             text = tab.contentDescription,
-            color = bottomBarColor,
+            style = CampuspickTheme.typography.caption3,
+            color = bottomBarTextColor,
             textAlign = TextAlign.Center
-            //여기도 타이포style추가되면 바꿔주세요
         )
     }
 }

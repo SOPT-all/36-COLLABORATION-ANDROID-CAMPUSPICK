@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
+import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.feature.club.navigation.clubNavGraph
 import org.sopt.collaboration.campuspick.feature.home.navigation.homeNavGraph
 import org.sopt.collaboration.campuspick.feature.main.MainNavigator
@@ -26,10 +26,7 @@ internal fun MainNavHost(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(
-                Color.White
-                //여기 컬러 세팅하면 바꾸기
-            )
+            .background(CampuspickTheme.colors.White)
     ) {
         NavHost(
             navController = navigator.navController,

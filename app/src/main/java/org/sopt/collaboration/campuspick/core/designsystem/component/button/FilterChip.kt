@@ -27,7 +27,6 @@ fun FilterChip(
     }
     CampuspickBasicButton(
         buttonText = buttonText,
-        clickable = true,
         onClick = onClick,
         paddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
         textStyle = CampuspickTheme.typography.caption2,

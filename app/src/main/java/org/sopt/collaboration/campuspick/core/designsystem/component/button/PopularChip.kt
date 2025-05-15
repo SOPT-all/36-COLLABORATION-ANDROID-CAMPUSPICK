@@ -12,7 +12,6 @@ fun PopularChip(
 ) {
     CampuspickBasicButton(
         buttonText = buttonText,
-        clickable = false,
         onClick = { },
         paddingValues = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
         textStyle = CampuspickTheme.typography.caption2,
