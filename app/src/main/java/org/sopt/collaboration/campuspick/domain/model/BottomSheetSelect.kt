@@ -8,6 +8,9 @@ enum class DeadLine(val label: String) {
     OVER14("14일 이상"),
     OVER30("30일 이상");
 
+    val replaceDeadLine: String?
+        get() = if (this == ALL) null else name
+
     companion object {
         fun DeadLine.Companion.fromLabel(label: String): DeadLine {
             return entries.find { it.label == label } ?: EMPTY
@@ -15,7 +18,7 @@ enum class DeadLine(val label: String) {
     }
 }
 
-enum class Location(val label: String) {
+enum class Region(val label: String) {
     EMPTY(""),
     NATIONWIDE("전국"),
     CAPITAL_REGION("수도권"),
@@ -28,22 +31,28 @@ enum class Location(val label: String) {
     JEJU("제주"),
     ETC("기타");
 
+    val replaceRegion: String?
+        get() = if (this == NATIONWIDE) null else name
+
     companion object {
-        fun Location.Companion.fromLabel(label: String): Location {
-            return Location.entries.find { it.label == label } ?: EMPTY
+        fun Region.Companion.fromLabel(label: String): Region {
+            return Region.entries.find { it.label == label } ?: EMPTY
         }
     }
 }
 
 enum class PreferDay(val label: String) {
     EMPTY(""),
-    All("전체"),
+    ALL("전체"),
     MONDAY("월"),
     TUESDAY("화"),
     WEDNESDAY("수"),
     THURSDAY("목"),
     FRIDAY("금"),
     WEEKEND("주말");
+
+    val replaceDay: String?
+        get() = if (this == ALL) null else name
 
     companion object {
         fun PreferDay.Companion.fromLabel(label: String): PreferDay {
