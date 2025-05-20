@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.feature.club.component
+package org.sopt.collaboration.campuspick.core.designsystem.component.cardview
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

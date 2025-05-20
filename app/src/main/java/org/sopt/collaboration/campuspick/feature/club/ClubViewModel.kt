@@ -4,7 +4,6 @@ import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.feature.club.component.ClubSearchCard
 
 class ClubViewModel() : BaseViewModel<ClubState, ClubSideEffect>(ClubState()) {
     val rankingDummy = listOf(

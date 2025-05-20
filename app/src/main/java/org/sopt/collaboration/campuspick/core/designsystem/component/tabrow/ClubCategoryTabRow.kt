@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.feature.club.component
+package org.sopt.collaboration.campuspick.core.designsystem.component.tabrow
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

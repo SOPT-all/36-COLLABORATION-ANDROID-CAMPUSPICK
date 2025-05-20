@@ -32,9 +32,9 @@ import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.feature.club.component.ClubCategoryTabRow
+import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.feature.club.component.ClubRankingCard
-import org.sopt.collaboration.campuspick.feature.club.component.ClubSearchCard
+import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
 
 @Composable
 fun ClubRoute(
