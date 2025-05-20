@@ -17,15 +17,15 @@ enum class ClubImage(
 ) {
     OVALKOREA(
         imageName = "club_OVALKOREA",
-        imageId = R.drawable.img_home_category_job_info
+        imageId = R.drawable.img_club_ovalkorea
     ),
     TREMOLO(
         imageName = "club_TREMOLO",
-        imageId = R.drawable.ic_launcher_foreground
+        imageId = R.drawable.img_club_tremolo
     ),
     CRESOL(
         imageName = "club_CRESOL",
-        imageId = R.drawable.ic_launcher_background
+        imageId = R.drawable.img_club_cresol
     );
 
     companion object {
