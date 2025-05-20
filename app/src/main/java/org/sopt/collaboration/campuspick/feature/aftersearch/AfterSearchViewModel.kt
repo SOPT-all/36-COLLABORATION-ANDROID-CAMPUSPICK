@@ -29,9 +29,6 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
                         filteredClub = it
                     )
                 }
-                Log.d("asdasdasd", it.toString())
-            }.onFailure {
-                Log.d("asdasdasd", it.toString())
             }
         }
     }

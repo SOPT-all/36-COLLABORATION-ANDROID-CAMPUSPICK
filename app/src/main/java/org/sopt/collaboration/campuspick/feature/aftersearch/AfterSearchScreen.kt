@@ -1,9 +1,7 @@
 package org.sopt.collaboration.campuspick.feature.aftersearch
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,11 +31,7 @@ fun AfterSearchRoute(
             clubDay = clubDay
         )
     }
-
-    LaunchedEffect(uiState.value.filteredClub) {
-        Log.d("asdasdasd", uiState.value.filteredClub.toString())
-    }
-
+    
     AfterSearchScreen(
     )
 }
