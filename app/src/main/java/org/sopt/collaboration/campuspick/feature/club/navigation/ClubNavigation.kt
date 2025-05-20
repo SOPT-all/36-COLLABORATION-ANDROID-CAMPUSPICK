@@ -16,10 +16,14 @@ fun NavController.navigateClub(navOptions: NavOptions) {
 fun NavGraphBuilder.clubNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
+    navigateBack: () -> Unit,
     navigateToSearch: () -> Unit
 ) {
     composable<Route.Club> {
         ClubRoute(
+            padding = padding,
+            modifier = modifier,
+            navigateBack = navigateBack,
             navigateToSearch = navigateToSearch
         )
     }

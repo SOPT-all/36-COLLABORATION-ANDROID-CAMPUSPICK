@@ -9,9 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.MainTabRoute
 import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
-import org.sopt.collaboration.campuspick.feature.home.navigation.navigateHome
+import org.sopt.collaboration.campuspick.feature.club.navigation.navigateClub
 import org.sopt.collaboration.campuspick.feature.others.navigation.navigateChatting
 import org.sopt.collaboration.campuspick.feature.others.navigation.navigateCommunity
 import org.sopt.collaboration.campuspick.feature.others.navigation.navigateMypage
@@ -40,7 +39,7 @@ internal class MainNavigator(
             restoreState = true
         }
         when (tab) {
-            MainTab.HOME -> navController.navigateHome(navOptions)
+            MainTab.HOME -> navController.navigateClub(navOptions)
             MainTab.STUDY -> navController.navigateStudy(navOptions)
             MainTab.COMMUNITY -> navController.navigateCommunity(navOptions)
             MainTab.CHATTING -> navController.navigateChatting(navOptions)
@@ -51,6 +50,10 @@ internal class MainNavigator(
     @Composable
     fun setBottomBarVisibility() = MainTab.contains {
         currentDestination?.hasRoute(it::class) == true
+    }
+
+    fun navigateBack() {
+        navController.popBackStack()
     }
 
     fun navigateToClub() {

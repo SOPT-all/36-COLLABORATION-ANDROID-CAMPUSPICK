@@ -38,6 +38,7 @@ internal fun MainNavHost(
             )
             clubNavGraph(
                 padding = padding,
+                navigateBack = navigator::navigateBack,
                 navigateToSearch = navigator::navigateToSearch
             )
             searchNavGraph(padding = padding)
