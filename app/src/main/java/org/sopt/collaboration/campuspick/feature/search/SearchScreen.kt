@@ -101,7 +101,7 @@ fun SearchScreen(
             updateBottomSheetShown = updateBottomSheetShown,
             onSearchClick = navigateToAfterSearchWithKeywordSearch,
             navigateToBack = navigateToBack,
-            modifier = modifier.padding(horizontal = 15.dp)
+            modifier = Modifier.padding(horizontal = 15.dp)
         )
         HorizontalDivider(
             thickness = 2.dp,

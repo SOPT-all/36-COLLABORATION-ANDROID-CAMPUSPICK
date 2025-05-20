@@ -3,43 +3,35 @@ package org.sopt.collaboration.campuspick.feature.aftersearch
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
+import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
 class AfterSearchViewModel(private val campusPickRepository: CampusPickRepository) :
     BaseViewModel<AfterSearchState, AfterSearchSideEffect>(AfterSearchState()) {
-
     fun updateCurrentFilter(
-        keyword: String = uiState.value.currentKeyword,
-        category: String = uiState.value.currentCategory,
-        deadLine: String = uiState.value.currentDeadLine,
-        region: String = uiState.value.currentRegion,
-        clubDay: String = uiState.value.currentClubDay
+        searchType: SearchType = SearchType(
+            keyword = uiState.value.currentFilter.keyword,
+            category = uiState.value.currentFilter.category,
+            deadline = uiState.value.currentFilter.deadline,
+            region = uiState.value.currentFilter.region,
+            clubDay = uiState.value.currentFilter.clubDay
+        )
     ) {
         intent {
             copy(
-                currentKeyword = keyword,
-                currentCategory = category,
-                currentDeadLine = deadLine,
-                currentRegion = region,
-                currentClubDay = clubDay
+                currentFilter = searchType
             )
         }
     }
 
-    fun getFilteredClub(
-        keyword: String?,
-        category: String?,
-        deadlineType: String?,
-        region: String?,
-        clubDay: String?,
-    ) {
+    fun getFilteredClub() {
         viewModelScope.launch {
             campusPickRepository.getSearchClubs(
-                keyword = keyword,
-                category = category,
-                deadlineType = deadlineType,
-                region = region,
-                clubDay = clubDay
+                keyword = uiState.value.currentFilter.keyword,
+                category = uiState.value.currentFilter.category,
+                deadlineType = uiState.value.currentFilter.deadline,
+                region = uiState.value.currentFilter.region,
+                clubDay = uiState.value.currentFilter.clubDay
             ).onSuccess {
                 intent {
                     copy(
@@ -49,4 +41,20 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
             }
         }
     }
+
+    fun updateInputSearch(inputSearch: String) {
+        intent {
+            copy(
+                inputSearch = inputSearch
+            )
+        }
+    }
+
+    fun updateBottomSheetShown(shown: Boolean) {
+        intent {
+            copy(showFilterBottomSheet = shown)
+        }
+    }
+
+    fun navigateToBack() = postSideEffect(AfterSearchSideEffect.NavigateBack)
 }
