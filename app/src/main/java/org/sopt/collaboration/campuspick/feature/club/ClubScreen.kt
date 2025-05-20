@@ -26,15 +26,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.appbar.CampuspickAppBar
+import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
+import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.component.textfield.CampuspickSearchBar
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
+import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.feature.club.component.ClubRankingCard
-import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
 
 @Composable
 fun ClubRoute(
@@ -42,9 +43,10 @@ fun ClubRoute(
     modifier: Modifier,
     navigateBack: () -> Unit,
     navigateToSearch: () -> Unit,
-    viewModel: ClubViewModel = viewModel()
+    viewModel: ClubViewModel = viewModel(factory = ViewModelFactory())
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val clubRanking = viewModel.clubRanking.collectAsStateWithLifecycle()
 
     ClubScreen(
         navigateBack = navigateBack,
@@ -53,7 +55,7 @@ fun ClubRoute(
         updateInputSearch = viewModel::updateInputSearch,
         selectedCategoryIndex = uiState.value.selectedTabIndex,
         updateSelectedCategory = viewModel::selectCategory,
-        clubRankingList = viewModel.rankingDummy,
+        clubRankingList = clubRanking.value,
         clubSearchList = viewModel.clubSearchDummy,
         modifier = modifier
             .padding(padding)
@@ -156,6 +158,7 @@ fun ClubRankingSection(clubRankings: List<ClubRanking>) {
                 .padding(top = if (index == 0) 0.dp else 15.dp)
         ) {
             ClubRankingCard(
+                index = index,
                 data = clubData,
             )
         }
@@ -264,7 +267,7 @@ private fun ClubScreenPreview() {
         updateInputSearch = {},
         selectedCategoryIndex = 0,
         updateSelectedCategory = { },
-        clubRankingList = viewModel.rankingDummy,
+        clubRankingList = emptyList(),
         clubSearchList = viewModel.clubSearchDummy
     )
 }

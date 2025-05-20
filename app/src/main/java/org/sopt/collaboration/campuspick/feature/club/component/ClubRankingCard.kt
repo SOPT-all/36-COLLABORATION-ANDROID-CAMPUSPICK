@@ -17,10 +17,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.domain.model.ClubImage
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 
 @Composable
 fun ClubRankingCard(
+    index: Int,
     data: ClubRanking,
     modifier: Modifier = Modifier
 ) {
@@ -29,7 +31,7 @@ fun ClubRankingCard(
         modifier = modifier.fillMaxWidth()
     ) {
         Text(
-            text = data.ranking.toString(),
+            text = (index + 1).toString(),
             style = CampuspickTheme.typography.heading2,
             color = CampuspickTheme.colors.Blue
         )
@@ -38,20 +40,20 @@ fun ClubRankingCard(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = data.title,
+                text = data.clubName,
                 style = CampuspickTheme.typography.body0,
                 color = CampuspickTheme.colors.Black
             )
             Spacer(Modifier.height(6.dp))
             Text(
-                text = data.description,
+                text = data.clubIntroduce,
                 style = CampuspickTheme.typography.caption4,
                 color = CampuspickTheme.colors.Gray2
             )
         }
         Spacer(Modifier.width(20.dp))
         Image(
-            painter = painterResource(data.imageId),
+            painter = painterResource(ClubImage.getImageId(data.clubImage)),
             contentDescription = null,
             modifier = Modifier
                 .size(57.dp)

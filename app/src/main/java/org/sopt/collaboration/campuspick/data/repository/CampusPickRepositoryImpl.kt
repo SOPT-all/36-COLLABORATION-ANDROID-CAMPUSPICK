@@ -1,6 +1,7 @@
 package org.sopt.collaboration.campuspick.data.repository
 
 import org.sopt.collaboration.campuspick.data.api.CampusPickService
+import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 import org.sopt.collaboration.campuspick.domain.model.FilteredClub
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
@@ -15,8 +16,17 @@ class CampusPickRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getRankClubs() {
-        TODO("Not yet implemented")
+    override suspend fun getRankClubs(): Result<List<ClubRanking>> = runCatching {
+        campusPickService.getRankClubs().data
+    }.mapCatching {
+        it.map {
+            ClubRanking(
+                id = it.id,
+                clubName = it.clubName,
+                clubIntroduce = it.clubIntroduce,
+                clubImage = it.clubImage,
+            )
+        }
     }
 
     override suspend fun getSearchClubs(

@@ -1,31 +1,23 @@
 package org.sopt.collaboration.campuspick.feature.club
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
+import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
-class ClubViewModel() : BaseViewModel<ClubState, ClubSideEffect>(ClubState()) {
-    val rankingDummy = listOf(
-        ClubRanking(
-            ranking = 1,
-            title = "미팅 놈들",
-            description = "MEET, EAT, CONNECT “MEATING PEOPLE”",
-            imageId = R.drawable.ic_launcher_background
-        ),
-        ClubRanking(
-            ranking = 2,
-            title = "☀\uFE0F오늘, 내일☀\uFE0F",
-            description = "서울 및 수도권 지역 문화탐방 동아리 “오늘,내일\"",
-            imageId = R.drawable.ic_launcher_background
-        ),
-        ClubRanking(
-            ranking = 3,
-            title = "Buddyz",
-            description = "전시/문화 관람 동아리로 활동인원 누적 2,500명",
-            imageId = R.drawable.ic_launcher_background
-        ),
-    )
+class ClubViewModel(
+    private val campusPickRepository: CampusPickRepository
+) : BaseViewModel<ClubState, ClubSideEffect>(ClubState()) {
+
+    private val _clubRanking = MutableStateFlow<List<ClubRanking>>(listOf())
+    val clubRanking: StateFlow<List<ClubRanking>> = _clubRanking.asStateFlow()
 
     val clubSearchDummy = listOf(
         ClubSearch(
@@ -60,6 +52,18 @@ class ClubViewModel() : BaseViewModel<ClubState, ClubSideEffect>(ClubState()) {
         ),
     )
 
+    init {
+        viewModelScope.launch {
+            campusPickRepository.getRankClubs()
+                .onSuccess {
+                    _clubRanking.value = it
+                    Log.d("ClubVM", it.toString())
+                }
+                .onFailure {
+                    Log.d("ClubVM", it.toString())
+                }
+        }
+    }
 
     fun selectCategory(index: Int) {
         intent {
