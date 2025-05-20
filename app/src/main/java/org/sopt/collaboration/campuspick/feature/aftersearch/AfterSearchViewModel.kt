@@ -1,6 +1,7 @@
 package org.sopt.collaboration.campuspick.feature.aftersearch
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.Category
@@ -28,6 +29,7 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
 
     fun getFilteredClub() {
         viewModelScope.launch {
+            delay(300L)
             campusPickRepository.getSearchClubs(
                 keyword = uiState.value.currentFilter.keyword,
                 category = uiState.value.currentFilter.category,
@@ -57,7 +59,7 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
     fun updateInputSearch(inputSearch: String) {
         intent {
             copy(
-                inputSearch = inputSearch
+                currentFilter = currentFilter.copy(keyword = inputSearch)
             )
         }
     }

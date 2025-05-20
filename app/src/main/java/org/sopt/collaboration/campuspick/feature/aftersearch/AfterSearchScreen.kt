@@ -69,11 +69,11 @@ fun AfterSearchRoute(
         }
     }
 
-    LaunchedEffectWithLifecycle {
+    LaunchedEffectWithLifecycle(Unit) {
         viewModel.apply {
             updateCurrentFilter(
                 SearchType(
-                    keyword = keyword,
+                    keyword = keyword ?: "",
                     category = category,
                     deadline = deadline,
                     region = region,
@@ -90,7 +90,7 @@ fun AfterSearchRoute(
     AfterSearchScreen(
         selectedCategory = Category.indexFromName(uiState.value.currentFilter.category),
         updateSelectedCategory = viewModel::updateSelectedCategory,
-        inputSearchValue = uiState.value.inputSearch,
+        inputSearchValue = uiState.value.currentFilter.keyword.toString(),
         updateInputSearch = viewModel::updateInputSearch,
         updateBottomSheetShown = viewModel::updateBottomSheetShown,
         filteredClub = uiState.value.filteredClub,
