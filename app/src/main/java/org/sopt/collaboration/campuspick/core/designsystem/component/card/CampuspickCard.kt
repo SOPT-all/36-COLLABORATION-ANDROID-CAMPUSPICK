@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
@@ -77,8 +78,10 @@ private fun CardContent(
     ) {
         Text(
             text = cardTitle,
-            style = CampuspickTheme.typography.body0,
-            color = CampuspickTheme.colors.Black
+            color = CampuspickTheme.colors.Black,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2,
+            style = CampuspickTheme.typography.body0
         )
 
         Spacer(modifier = titleMetaSpacer)
