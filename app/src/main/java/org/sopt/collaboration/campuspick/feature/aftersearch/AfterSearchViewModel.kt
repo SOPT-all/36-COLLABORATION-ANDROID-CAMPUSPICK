@@ -3,11 +3,13 @@ package org.sopt.collaboration.campuspick.feature.aftersearch
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
+import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
 class AfterSearchViewModel(private val campusPickRepository: CampusPickRepository) :
     BaseViewModel<AfterSearchState, AfterSearchSideEffect>(AfterSearchState()) {
+
     fun updateCurrentFilter(
         searchType: SearchType = SearchType(
             keyword = uiState.value.currentFilter.keyword,
@@ -39,6 +41,16 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
                     )
                 }
             }
+        }
+    }
+
+    fun updateSelectedCategory(categoryIndex: Int) {
+        val categoryName =
+            if (categoryIndex == 0) null else Category.entries.getOrNull(categoryIndex)?.name
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(category = categoryName)
+            )
         }
     }
 

@@ -44,7 +44,7 @@ fun SearchRoute(
             when (sideEffect) {
                 NavigateAfterSearch -> navigateToAfterSearch(
                     SearchType(
-                        keyword = uiState.value.inputSearch,
+                        keyword = if (uiState.value.inputSearch.isBlank()) null else uiState.value.inputSearch,
                         category = null,
                         deadline = uiState.value.filterDeadLine.replaceDeadLine,
                         region = uiState.value.filterRegion.replaceRegion,
