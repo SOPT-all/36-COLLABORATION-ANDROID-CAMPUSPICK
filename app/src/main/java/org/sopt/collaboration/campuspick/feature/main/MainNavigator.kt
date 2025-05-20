@@ -70,7 +70,7 @@ internal class MainNavigator(
             Route.AfterSearch(
                 keyword = searchType.keyword,
                 category = searchType.category,
-                deadlineType = searchType.deadlineType,
+                deadlineType = searchType.deadline,
                 region = searchType.region,
                 clubDay = searchType.clubDay
             )

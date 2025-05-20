@@ -1,6 +1,5 @@
 package org.sopt.collaboration.campuspick.feature.aftersearch
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
@@ -8,6 +7,24 @@ import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
 class AfterSearchViewModel(private val campusPickRepository: CampusPickRepository) :
     BaseViewModel<AfterSearchState, AfterSearchSideEffect>(AfterSearchState()) {
+
+    fun updateCurrentFilter(
+        keyword: String = uiState.value.currentKeyword,
+        category: String = uiState.value.currentCategory,
+        deadLine: String = uiState.value.currentDeadLine,
+        region: String = uiState.value.currentRegion,
+        clubDay: String = uiState.value.currentClubDay
+    ) {
+        intent {
+            copy(
+                currentKeyword = keyword,
+                currentCategory = category,
+                currentDeadLine = deadLine,
+                currentRegion = region,
+                currentClubDay = clubDay
+            )
+        }
+    }
 
     fun getFilteredClub(
         keyword: String?,

@@ -46,7 +46,7 @@ fun SearchRoute(
                     SearchType(
                         keyword = uiState.value.inputSearch,
                         category = null,
-                        deadlineType = uiState.value.filterDeadLine.replaceDeadLine,
+                        deadline = uiState.value.filterDeadLine.replaceDeadLine,
                         region = uiState.value.filterRegion.replaceRegion,
                         clubDay = uiState.value.filterPreferDay.replaceDay
                     )

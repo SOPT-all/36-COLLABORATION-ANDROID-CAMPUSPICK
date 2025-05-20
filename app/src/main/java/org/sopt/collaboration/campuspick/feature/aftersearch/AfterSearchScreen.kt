@@ -31,7 +31,7 @@ fun AfterSearchRoute(
             clubDay = clubDay
         )
     }
-    
+
     AfterSearchScreen(
     )
 }
