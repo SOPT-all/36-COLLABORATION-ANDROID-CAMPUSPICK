@@ -30,14 +30,14 @@ class CampusPickRepositoryImpl(
     }
 
     override suspend fun getSearchClubs(
-        title: String?,
+        keyword: String?,
         category: String?,
         deadlineType: String?,
         region: String?,
         clubDay: String?
     ): Result<List<FilteredClub>> = runCatching {
         campusPickService.getSearchClubs(
-            title = title,
+            keyword = keyword,
             category = category,
             deadlineType = deadlineType,
             region = region,

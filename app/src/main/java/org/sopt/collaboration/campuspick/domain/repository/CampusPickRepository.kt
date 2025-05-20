@@ -8,7 +8,7 @@ interface CampusPickRepository {
     suspend fun getPopularActivities()
     suspend fun getRankClubs(): Result<List<ClubRanking>>
     suspend fun getSearchClubs(
-        title: String?,
+        keyword: String?,
         category: String?,
         deadlineType: String?,
         region: String?,

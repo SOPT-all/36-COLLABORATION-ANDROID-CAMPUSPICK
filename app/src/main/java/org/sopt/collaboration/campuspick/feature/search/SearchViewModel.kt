@@ -1,34 +1,11 @@
 package org.sopt.collaboration.campuspick.feature.search
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.Location
 import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
+import org.sopt.collaboration.campuspick.domain.model.Region
 
-class SearchViewModel(
-    private val campusPickRepository: CampusPickRepository
-) : BaseViewModel<SearchState, SearchSideEffect>(SearchState()) {
-
-
-    init {
-        viewModelScope.launch {
-            campusPickRepository.getSearchClubs(
-                title = null,
-                category = null,
-                deadlineType = null,
-                region = null,
-                clubDay = null
-            ).onSuccess {
-                Log.d("asdasdasd", it.toString())
-            }.onFailure {
-                Log.d("asdasdasd", it.toString())
-            }
-        }
-    }
+class SearchViewModel : BaseViewModel<SearchState, SearchSideEffect>(SearchState()) {
 
     fun updateInputSearch(inputSearch: String) {
         intent {
@@ -56,13 +33,13 @@ class SearchViewModel(
         }
     }
 
-    fun updateSelectedLocation(location: Location) {
+    fun updateSelectedLocation(region: Region) {
         intent {
             copy(
-                filterLocation = if (uiState.value.filterLocation == location) {
-                    Location.EMPTY
+                filterRegion = if (uiState.value.filterRegion == region) {
+                    Region.EMPTY
                 } else {
-                    location
+                    region
                 }
             )
         }
@@ -79,4 +56,18 @@ class SearchViewModel(
             )
         }
     }
+
+    fun navigateToAfterSearchWithKeywordSearch() {
+        if (uiState.value.inputSearch.isNotBlank()) postSideEffect(SearchSideEffect.NavigateAfterSearch)
+    }
+
+    fun navigateToAfterSearchWithBottomSheet() {
+        if (uiState.value.filterDeadLine != DeadLine.EMPTY ||
+            uiState.value.filterRegion != Region.EMPTY ||
+            uiState.value.filterPreferDay != PreferDay.EMPTY
+        ) postSideEffect(SearchSideEffect.NavigateAfterSearch)
+    }
+
+    fun navigateToBack() = postSideEffect(SearchSideEffect.NavigateBack)
+
 }

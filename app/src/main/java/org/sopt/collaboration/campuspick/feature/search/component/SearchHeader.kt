@@ -27,6 +27,8 @@ fun SearchHeader(
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
     updateBottomSheetShown: (Boolean) -> Unit,
+    onSearchClick: () -> Unit,
+    navigateToBack: () -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -44,9 +46,7 @@ fun SearchHeader(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                HeaderBackButton {
-                    // TODO: 뒤로가기
-                }
+                HeaderBackButton(onClick = navigateToBack)
                 Text(
                     text = "내 활동",
                     style = CampuspickTheme.typography.heading1,
@@ -68,7 +68,7 @@ fun SearchHeader(
                 placeholder = "찾으시는 동아리가 있나요?",
                 value = inputSearchValue,
                 onValueChange = updateInputSearch,
-                onSearchClick = null,
+                onSearchClick = onSearchClick,
                 modifier = Modifier.weight(1f),
                 usedOnlyNavigation = false
             )

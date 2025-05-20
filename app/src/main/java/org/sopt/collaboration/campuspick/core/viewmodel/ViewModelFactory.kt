@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import org.sopt.collaboration.campuspick.data.api.ApiFactory
 import org.sopt.collaboration.campuspick.data.repository.CampusPickRepositoryImpl
 import org.sopt.collaboration.campuspick.feature.club.ClubViewModel
-import org.sopt.collaboration.campuspick.feature.search.SearchViewModel
+import org.sopt.collaboration.campuspick.feature.aftersearch.AfterSearchViewModel
 
 class ViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -17,12 +17,13 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 ) as T
             }
 
-            SearchViewModel::class.java -> {
-                SearchViewModel(
+            AfterSearchViewModel::class.java -> {
+                AfterSearchViewModel(
                     CampusPickRepositoryImpl(ApiFactory.ServicePool.campusPickService)
                 ) as T
+
             }
-            
+
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }
     }

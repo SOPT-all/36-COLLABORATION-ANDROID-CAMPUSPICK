@@ -18,7 +18,7 @@ interface CampusPickService {
 
     @GET("/$API/$V1/$CLUBS/$SEARCH")
     suspend fun getSearchClubs(
-        @Query("title") title: String?,
+        @Query("keyword") keyword: String?,
         @Query("category") category: String?,
         @Query("deadlineType") deadlineType: String?,
         @Query("region") region: String?,
