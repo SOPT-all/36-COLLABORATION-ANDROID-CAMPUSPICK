@@ -19,7 +19,6 @@ import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
-import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.DeadLine
 import org.sopt.collaboration.campuspick.domain.model.PreferDay
 import org.sopt.collaboration.campuspick.domain.model.Region
@@ -35,7 +34,7 @@ fun SearchRoute(
     navigateToAfterSearch: (SearchType) -> Unit,
     navigateToBack: () -> Unit,
     modifier: Modifier,
-    viewModel: SearchViewModel = viewModel(factory = ViewModelFactory())
+    viewModel: SearchViewModel = viewModel()
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
