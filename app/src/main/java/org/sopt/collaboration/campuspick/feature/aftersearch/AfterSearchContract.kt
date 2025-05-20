@@ -7,6 +7,7 @@ import org.sopt.collaboration.campuspick.domain.model.FilteredClub
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 
 data class AfterSearchState(
+    val selectFilterIcon: Boolean = false,
     val showFilterBottomSheet: Boolean = false,
     val currentFilter: SearchType = SearchType(
         keyword = null,

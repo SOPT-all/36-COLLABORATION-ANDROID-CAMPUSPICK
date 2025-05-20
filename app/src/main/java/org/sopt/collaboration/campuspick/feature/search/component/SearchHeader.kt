@@ -61,6 +61,7 @@ fun SearchHeader(
             )
         }
         FilterSearchBar(
+            filterSelected = false,
             inputSearchValue = inputSearchValue,
             updateInputSearch = updateInputSearch,
             updateBottomSheetShown = updateBottomSheetShown,
@@ -71,6 +72,7 @@ fun SearchHeader(
 
 @Composable
 fun FilterSearchBar(
+    filterSelected: Boolean,
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
     updateBottomSheetShown: (Boolean) -> Unit,
@@ -95,7 +97,7 @@ fun FilterSearchBar(
             modifier = Modifier
                 .size(40.dp)
                 .background(
-                    color = CampuspickTheme.colors.Gray4,
+                    color = if (filterSelected) CampuspickTheme.colors.SkyBlue else CampuspickTheme.colors.Gray4,
                     shape = CircleShape
                 )
                 .customClickable(
@@ -106,7 +108,7 @@ fun FilterSearchBar(
             Icon(
                 painter = painterResource(R.drawable.ic_filter),
                 contentDescription = "filter",
-                tint = Color.Unspecified,
+                tint = if (filterSelected) CampuspickTheme.colors.Blue else Color.Unspecified,
             )
         }
     }

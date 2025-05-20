@@ -5,6 +5,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.Category
+import org.sopt.collaboration.campuspick.domain.model.DeadLine
+import org.sopt.collaboration.campuspick.domain.model.PreferDay
+import org.sopt.collaboration.campuspick.domain.model.Region
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
@@ -67,6 +70,46 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
     fun updateBottomSheetShown(shown: Boolean) {
         intent {
             copy(showFilterBottomSheet = shown)
+        }
+    }
+
+    fun updateSelectedDeadLine(deadLine: DeadLine) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(
+                    deadline =
+                        if (uiState.value.currentFilter.deadline == deadLine.name)
+                            DeadLine.EMPTY.replaceDeadLine
+                        else deadLine.replaceDeadLine
+                )
+            )
+        }
+    }
+
+    fun updateSelectedLocation(region: Region) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(
+                    region =
+                        if (uiState.value.currentFilter.region == region.name)
+                            Region.EMPTY.replaceRegion
+                        else region.replaceRegion
+                )
+            )
+        }
+    }
+
+    fun updateSelectedPreferDay(preferDay: PreferDay) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(
+                    clubDay =
+                        if (uiState.value.currentFilter.clubDay == preferDay.name)
+                            PreferDay.EMPTY.replaceDay
+                        else
+                            preferDay.replaceDay
+                )
+            )
         }
     }
 
