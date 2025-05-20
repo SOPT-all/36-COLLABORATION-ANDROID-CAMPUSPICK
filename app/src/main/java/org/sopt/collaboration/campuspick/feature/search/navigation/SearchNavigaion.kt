@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
+import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.search.SearchRoute
 
 fun NavController.navigateSearch(navOptions: NavOptions) {
@@ -15,11 +16,15 @@ fun NavController.navigateSearch(navOptions: NavOptions) {
 
 fun NavGraphBuilder.searchNavGraph(
     padding: PaddingValues,
+    navigateToAfterSearch: (SearchType) -> Unit,
+    navigateToBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     composable<Route.Search> {
         SearchRoute(
             padding = padding,
+            navigateToAfterSearch = navigateToAfterSearch,
+            navigateToBack = navigateToBack,
             modifier = modifier
         )
     }

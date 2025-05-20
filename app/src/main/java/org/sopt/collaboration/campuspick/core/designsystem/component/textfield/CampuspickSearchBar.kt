@@ -99,10 +99,14 @@ fun CampuspickSearchBar(
                         innerTextField()
                     }
                     Icon(
-                        modifier = Modifier.size(18.dp),
                         imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                         tint = Color.Unspecified,
                         contentDescription = "search",
+                        modifier = Modifier.size(18.dp)
+                            .customClickable(
+                                rippleEnabled = false,
+                                onClick = onSearchClick
+                            )
                     )
                 }
             }

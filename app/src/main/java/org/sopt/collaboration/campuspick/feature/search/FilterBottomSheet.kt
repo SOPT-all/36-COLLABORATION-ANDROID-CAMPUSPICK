@@ -22,10 +22,10 @@ import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLif
 import org.sopt.collaboration.campuspick.domain.model.DeadLine
 import org.sopt.collaboration.campuspick.domain.model.DeadLine.Companion.fromLabel
 import org.sopt.collaboration.campuspick.domain.model.FilterSection
-import org.sopt.collaboration.campuspick.domain.model.Location
-import org.sopt.collaboration.campuspick.domain.model.Location.Companion.fromLabel
 import org.sopt.collaboration.campuspick.domain.model.PreferDay
 import org.sopt.collaboration.campuspick.domain.model.PreferDay.Companion.fromLabel
+import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.domain.model.Region.Companion.fromLabel
 import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,10 +33,11 @@ import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 fun FilterBottomSheet(
     showFilterBottomSheet: Boolean,
     onDismiss: (Boolean) -> Unit,
+    navigateToAfterSearchWithBottomSheet: () -> Unit,
     bottomSheetDeadLineSelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
     bottomSheetLocationSelected: String,
-    updateSelectedLocation: (Location) -> Unit,
+    updateSelectedLocation: (Region) -> Unit,
     bottomSheetPreferDaySelected: String,
     updateSelectedPreferDay: (PreferDay) -> Unit,
 ) {
@@ -56,6 +57,7 @@ fun FilterBottomSheet(
     if (showFilterBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
+                navigateToAfterSearchWithBottomSheet()
                 coroutineScope.launch {
                     bottomSheetState.hide()
                 }.invokeOnCompletion {
@@ -104,15 +106,15 @@ fun FilterBottomSheet(
                         ),
                         FilterSection(
                             title = "지역",
-                            keywords = Location.entries.filter {
-                                it != Location.EMPTY
+                            keywords = Region.entries.filter {
+                                it != Region.EMPTY
                             }.map { it.label },
                             keywordType = { label ->
                                 FilterChip(
                                     buttonText = label,
                                     isSelected = bottomSheetLocationSelected == label,
                                     onClick = {
-                                        Location.fromLabel(label).let(updateSelectedLocation)
+                                        Region.fromLabel(label).let(updateSelectedLocation)
                                     }
                                 )
                             }
