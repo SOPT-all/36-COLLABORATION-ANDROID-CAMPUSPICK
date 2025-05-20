@@ -111,7 +111,7 @@ fun AfterSearchScreen(
                     onSearchClick = {},
                     modifier = Modifier
                         .padding(horizontal = 15.dp)
-                        .padding(bottom = 11.dp)
+                        .padding(bottom = 6.dp)
                 )
             }
 
@@ -125,7 +125,7 @@ fun AfterSearchScreen(
                         tabTitles = Category.entries.map { it.label }.toImmutableList(),
                         onTabClick = {},
                         selectedIndex = 1,
-                        modifier = Modifier.padding(bottom = 11.dp)
+                        modifier = Modifier.padding(top = 5.dp, bottom = 11.dp)
                     )
                     DivisionLine()
                 }
