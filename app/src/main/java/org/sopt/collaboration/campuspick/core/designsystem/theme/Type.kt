@@ -31,78 +31,91 @@ val defaultCampuspickTypography = CampuspickTypography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
+        lineHeight = 22.sp,
         letterSpacing = (-0.2).sp
     ),
     heading1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
+        lineHeight = 18.sp,
         letterSpacing = (-0.2).sp
     ),
     heading2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp,
+        lineHeight = 17.sp,
         letterSpacing = (-0.2).sp
     ),
     heading3 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
+        lineHeight = 14.sp,
         letterSpacing = (-0.2).sp
     ),
     heading4 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 17.sp,
+        lineHeight = 17.sp,
         letterSpacing = (-0.2).sp
     ),
     body0 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
+        lineHeight = 14.sp,
         letterSpacing = (-0.2).sp
     ),
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 13.sp,
+        lineHeight = 13.sp,
         letterSpacing = (-0.2).sp
     ),
     body2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
         fontSize = 13.sp,
+        lineHeight = 13.sp,
         letterSpacing = (-0.2).sp
     ),
     body3 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 15.sp,
+        lineHeight = 15.sp,
         letterSpacing = (-0.2).sp
     ),
     caption1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
+        lineHeight = 12.sp,
         letterSpacing = (-0.2).sp
     ),
     caption2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
+        lineHeight = 12.sp,
         letterSpacing = (-0.2).sp
     ),
     caption3 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
+        lineHeight = 10.sp,
         letterSpacing = (-0.2).sp
     ),
     caption4 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp,
+        lineHeight = 11.sp,
         letterSpacing = (-0.2).sp
     )
 )
