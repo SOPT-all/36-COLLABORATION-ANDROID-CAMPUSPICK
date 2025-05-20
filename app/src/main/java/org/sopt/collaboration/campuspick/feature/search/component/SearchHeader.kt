@@ -28,6 +28,7 @@ fun SearchHeader(
     updateInputSearch: (String) -> Unit,
     updateBottomSheetShown: (Boolean) -> Unit,
     onSearchClick: () -> Unit,
+    navigateToBack: () -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -45,9 +46,7 @@ fun SearchHeader(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                HeaderBackButton {
-                    // TODO: 뒤로가기
-                }
+                HeaderBackButton(onClick = navigateToBack)
                 Text(
                     text = "내 활동",
                     style = CampuspickTheme.typography.heading1,

@@ -9,7 +9,7 @@ enum class DeadLine(val label: String) {
     OVER30("30일 이상");
 
     val replaceDeadLine: String?
-        get() = if (this == ALL) null else name
+        get() = if (this == ALL || this == EMPTY) null else name
 
     companion object {
         fun DeadLine.Companion.fromLabel(label: String): DeadLine {
@@ -32,7 +32,7 @@ enum class Region(val label: String) {
     ETC("기타");
 
     val replaceRegion: String?
-        get() = if (this == NATIONWIDE) null else name
+        get() = if (this == NATIONWIDE || this == EMPTY) null else name
 
     companion object {
         fun Region.Companion.fromLabel(label: String): Region {
@@ -52,7 +52,7 @@ enum class PreferDay(val label: String) {
     WEEKEND("주말");
 
     val replaceDay: String?
-        get() = if (this == ALL) null else name
+        get() = if (this == ALL || this == EMPTY) null else name
 
     companion object {
         fun PreferDay.Companion.fromLabel(label: String): PreferDay {

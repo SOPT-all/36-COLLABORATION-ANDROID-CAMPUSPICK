@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
+import org.sopt.collaboration.campuspick.feature.aftersearch.navigation.afterSearchNavGraph
 import org.sopt.collaboration.campuspick.feature.club.navigation.clubNavGraph
 import org.sopt.collaboration.campuspick.feature.home.navigation.homeNavGraph
 import org.sopt.collaboration.campuspick.feature.main.MainNavigator
@@ -41,7 +42,15 @@ internal fun MainNavHost(
                 navigateBack = navigator::navigateBack,
                 navigateToSearch = navigator::navigateToSearch
             )
-            searchNavGraph(padding = padding)
+            searchNavGraph(
+                padding = padding,
+                navigateToAfterSearch = navigator::navigateToAfterSearch,
+                navigateToBack = navigator::navigateBack
+            )
+            afterSearchNavGraph(
+                padding = padding,
+                navigateToBack = navigator::navigateBack
+            )
 
             //dummy
             studyNavGraph(padding = padding)

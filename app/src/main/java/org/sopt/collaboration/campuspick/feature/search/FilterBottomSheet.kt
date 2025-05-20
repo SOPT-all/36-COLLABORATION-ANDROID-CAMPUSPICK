@@ -22,10 +22,10 @@ import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLif
 import org.sopt.collaboration.campuspick.domain.model.DeadLine
 import org.sopt.collaboration.campuspick.domain.model.DeadLine.Companion.fromLabel
 import org.sopt.collaboration.campuspick.domain.model.FilterSection
-import org.sopt.collaboration.campuspick.domain.model.Region
-import org.sopt.collaboration.campuspick.domain.model.Region.Companion.fromLabel
 import org.sopt.collaboration.campuspick.domain.model.PreferDay
 import org.sopt.collaboration.campuspick.domain.model.PreferDay.Companion.fromLabel
+import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.domain.model.Region.Companion.fromLabel
 import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,6 +33,7 @@ import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 fun FilterBottomSheet(
     showFilterBottomSheet: Boolean,
     onDismiss: (Boolean) -> Unit,
+    navigateToAfterSearchWithBottomSheet: () -> Unit,
     bottomSheetDeadLineSelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
     bottomSheetLocationSelected: String,
@@ -56,6 +57,7 @@ fun FilterBottomSheet(
     if (showFilterBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
+                navigateToAfterSearchWithBottomSheet()
                 coroutineScope.launch {
                     bottomSheetState.hide()
                 }.invokeOnCompletion {
