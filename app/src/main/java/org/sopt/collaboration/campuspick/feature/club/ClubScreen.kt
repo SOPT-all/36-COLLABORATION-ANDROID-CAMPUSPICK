@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,8 +53,8 @@ fun ClubRoute(
         updateInputSearch = viewModel::updateInputSearch,
         selectedCategoryIndex = uiState.value.selectedTabIndex,
         updateSelectedCategory = viewModel::selectCategory,
-        clubRankings = viewModel.rankingDummy,
-        clubSearchs = viewModel.clubSearchDummy,
+        clubRankingList = viewModel.rankingDummy,
+        clubSearchList = viewModel.clubSearchDummy,
         modifier = modifier
             .padding(padding)
     )
@@ -69,8 +68,8 @@ fun ClubScreen(
     updateInputSearch: (String) -> Unit,
     selectedCategoryIndex: Int,
     updateSelectedCategory: (Int) -> Unit,
-    clubRankings: List<ClubRanking>,
-    clubSearchs: List<ClubSearch>,
+    clubRankingList: List<ClubRanking>,
+    clubSearchList: List<ClubSearch>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -78,6 +77,7 @@ fun ClubScreen(
         verticalArrangement = Arrangement.Top,
         modifier = modifier.fillMaxSize()
     ) {
+        //TODO: 스크롤 영역 지정
         item {
             Spacer(Modifier.height(23.dp))
             CampuspickAppBar(
@@ -102,129 +102,142 @@ fun ClubScreen(
             )
             DivisionLine()
         }
-        item {
-            Spacer(Modifier.height(23.dp))
+        item { // 인기 모집 공고
+            PopularRecruitmentSection()
+        }
+        item { // 동아리 랭킹
+            ClubRankingSection(clubRankingList)
+        }
+        item { // 동아리 탐색
+            ClubSearchSection(clubSearchList)
+        }
+    }
+}
+
+@Composable
+fun PopularRecruitmentSection() {
+    Spacer(Modifier.height(23.dp))
+    Text(
+        text = "인기 모집 공고",
+        style = CampuspickTheme.typography.heading4,
+        color = CampuspickTheme.colors.Black,
+        modifier = Modifier.padding(start = 15.dp)
+    )
+    Spacer(Modifier.height(20.dp))
+    //TODO: 인기 모집 공고 LazyRow 추가
+    DivisionLine()
+}
+
+@Composable
+fun ClubRankingSection(clubRankings: List<ClubRanking>) {
+    Spacer(Modifier.height(12.dp))
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .padding(horizontal = 15.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = "동아리 랭킹",
+            style = CampuspickTheme.typography.heading4,
+            color = CampuspickTheme.colors.Black
+        )
+        Text(
+            text = "더보기",
+            style = CampuspickTheme.typography.body1,
+            color = CampuspickTheme.colors.Gray2
+        )
+    }
+    Spacer(Modifier.height(20.dp))
+    clubRankings.forEachIndexed { index, clubData ->
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .padding(top = if (index == 0) 0.dp else 15.dp)
+        ) {
+            ClubRankingCard(
+                data = clubData,
+            )
+        }
+    }
+    Spacer(Modifier.height(13.dp))
+    DivisionLine()
+}
+
+@Composable
+fun ClubSearchSection(clubSearchs: List<ClubSearch>) {
+    Spacer(Modifier.height(15.dp))
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(horizontal = 15.dp)
+    ) {
+        Text(
+            text = "동아리 탐색",
+            style = CampuspickTheme.typography.heading4,
+            color = CampuspickTheme.colors.Black
+        )
+        Spacer(Modifier.weight(1f))
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
-                text = "인기 모집 공고",
-                style = CampuspickTheme.typography.heading4,
-                color = CampuspickTheme.colors.Black,
-                modifier = Modifier.padding(start = 15.dp)
+                text = "마감된 공고 제외",
+                style = CampuspickTheme.typography.caption4,
+                color = CampuspickTheme.colors.Black
             )
-            Spacer(Modifier.height(20.dp))
-            //TODO: 인기 모집 공고 LazyRow 추가
-            DivisionLine()
-        }
-        item {
-            Spacer(Modifier.height(12.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "동아리 랭킹",
-                    style = CampuspickTheme.typography.heading4,
-                    color = CampuspickTheme.colors.Black
-                )
-                Text(
-                    text = "더보기",
-                    style = CampuspickTheme.typography.body1,
-                    color = CampuspickTheme.colors.Gray2
-                )
-            }
-            Spacer(Modifier.height(20.dp))
-        }
-        itemsIndexed(items = clubRankings) { index, clubData ->
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .padding(top = if (index == 0) 0.dp else 15.dp)
-            ) {
-                ClubRankingCard(
-                    data = clubData,
-                )
-            }
-        }
-        item {
-            Spacer(Modifier.height(13.dp))
-            DivisionLine()
-        }
-        item {
-            Spacer(Modifier.height(15.dp))
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 15.dp)
-            ) {
-                Text(
-                    text = "동아리 탐색",
-                    style = CampuspickTheme.typography.heading4,
-                    color = CampuspickTheme.colors.Black
-                )
-                Spacer(Modifier.weight(1f))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "마감된 공고 제외",
-                        style = CampuspickTheme.typography.caption4,
-                        color = CampuspickTheme.colors.Black
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_check_in_circle),
-                        tint = CampuspickTheme.colors.Gray2,
-                        contentDescription = null
-                    )
-                }
-                Spacer(
-                    Modifier
-                        .height(12.dp)
-                        .width(1.dp)
-                        .background(CampuspickTheme.colors.Gray3)
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "지역",
-                        style = CampuspickTheme.typography.caption4,
-                        color = CampuspickTheme.colors.Black
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_under_arrow),
-                        tint = CampuspickTheme.colors.Gray2,
-                        contentDescription = null
-                    )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "최신순",
-                        style = CampuspickTheme.typography.caption4,
-                        color = CampuspickTheme.colors.Black
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_under_arrow),
-                        tint = CampuspickTheme.colors.Gray2,
-                        contentDescription = null
-                    )
-                }
-            }
-            Spacer(Modifier.height(23.dp))
-        }
-        itemsIndexed(clubSearchs) { index, data ->
-            ClubSearchCard(
-                data = data,
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .padding(top = if (index == 0) 0.dp else 15.dp)
+            Spacer(Modifier.width(4.dp))
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_check_in_circle),
+                tint = CampuspickTheme.colors.Gray2,
+                contentDescription = null
             )
         }
+        Spacer(
+            Modifier
+                .height(12.dp)
+                .width(1.dp)
+                .background(CampuspickTheme.colors.Gray3)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "지역",
+                style = CampuspickTheme.typography.caption4,
+                color = CampuspickTheme.colors.Black
+            )
+            Spacer(Modifier.width(4.dp))
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_under_arrow),
+                tint = CampuspickTheme.colors.Gray2,
+                contentDescription = null
+            )
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "최신순",
+                style = CampuspickTheme.typography.caption4,
+                color = CampuspickTheme.colors.Black
+            )
+            Spacer(Modifier.width(4.dp))
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_under_arrow),
+                tint = CampuspickTheme.colors.Gray2,
+                contentDescription = null
+            )
+        }
+    }
+    Spacer(Modifier.height(23.dp))
+    clubSearchs.forEachIndexed { index, data ->
+        ClubSearchCard(
+            data = data,
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .padding(top = if (index == 0) 0.dp else 15.dp)
+        )
     }
 }
 
@@ -251,7 +264,7 @@ private fun ClubScreenPreview() {
         updateInputSearch = {},
         selectedCategoryIndex = 0,
         updateSelectedCategory = { },
-        clubRankings = viewModel.rankingDummy,
-        clubSearchs = viewModel.clubSearchDummy
+        clubRankingList = viewModel.rankingDummy,
+        clubSearchList = viewModel.clubSearchDummy
     )
 }

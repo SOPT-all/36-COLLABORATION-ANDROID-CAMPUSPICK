@@ -56,7 +56,7 @@ fun ClubSearchCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        imageVector = ImageVector.vectorResource(data.profile),
+                        painter = painterResource(data.profile),
                         contentDescription = null,
                         modifier = Modifier
                             .size(29.dp)
