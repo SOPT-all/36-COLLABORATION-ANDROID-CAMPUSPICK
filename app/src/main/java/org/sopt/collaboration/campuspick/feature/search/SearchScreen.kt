@@ -1,5 +1,6 @@
 package org.sopt.collaboration.campuspick.feature.search
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,13 +15,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
+import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
 import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.Location
 import org.sopt.collaboration.campuspick.domain.model.PreferDay
+import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.domain.model.SearchType
+import org.sopt.collaboration.campuspick.feature.search.SearchSideEffect.NavigateAfterSearch
 import org.sopt.collaboration.campuspick.feature.search.component.RecentSearchKeyword
 import org.sopt.collaboration.campuspick.feature.search.component.SearchHeader
 import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
@@ -28,12 +33,30 @@ import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 @Composable
 fun SearchRoute(
     padding: PaddingValues,
+    navigateToAfterSearch: (SearchType) -> Unit = {
+        Log.d("asdasdasd", "good")
+    },
     modifier: Modifier,
     viewModel: SearchViewModel = viewModel(factory = ViewModelFactory())
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
 
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            if (sideEffect == NavigateAfterSearch) {
+                navigateToAfterSearch(
+                    SearchType(
+                        keyword = uiState.value.inputSearch,
+                        category = null,
+                        deadlineType = uiState.value.filterDeadLine.replaceDeadLine,
+                        region = uiState.value.filterRegion.replaceRegion,
+                        clubDay = uiState.value.filterPreferDay.replaceDay
+                    )
+                )
+            }
+        }
+    }
     SearchScreen(
         inputSearchValue = uiState.value.inputSearch,
         updateInputSearch = viewModel::updateInputSearch,
@@ -41,10 +64,12 @@ fun SearchRoute(
         updateBottomSheetShown = viewModel::updateBottomSheetShown,
         bottomSheetDeadLineSelected = uiState.value.filterDeadLine.label,
         updateSelectedDeadLine = viewModel::updateSelectedDeadLine,
-        bottomSheetLocationSelected = uiState.value.filterLocation.label,
+        bottomSheetLocationSelected = uiState.value.filterRegion.label,
         updateSelectedLocation = viewModel::updateSelectedLocation,
         bottomSheetPreferDaySelected = uiState.value.filterPreferDay.label,
         updateSelectedPreferDay = viewModel::updateSelectedPreferDay,
+        navigateToAfterSearchWithKeywordSearch = viewModel::navigateToAfterSearchWithKeywordSearch,
+        navigateToAfterSearchWithBottomSheet = viewModel::navigateToAfterSearchWithBottomSheet,
         modifier = modifier
             .addFocusCleaner(focusManager)
             .padding(padding)
@@ -60,9 +85,11 @@ fun SearchScreen(
     bottomSheetDeadLineSelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
     bottomSheetLocationSelected: String,
-    updateSelectedLocation: (Location) -> Unit,
+    updateSelectedLocation: (Region) -> Unit,
     bottomSheetPreferDaySelected: String,
     updateSelectedPreferDay: (PreferDay) -> Unit,
+    navigateToAfterSearchWithKeywordSearch: () -> Unit,
+    navigateToAfterSearchWithBottomSheet: () -> Unit,
     modifier: Modifier,
 ) {
     Column(modifier = modifier) {
@@ -70,6 +97,7 @@ fun SearchScreen(
             inputSearchValue = inputSearchValue,
             updateInputSearch = updateInputSearch,
             updateBottomSheetShown = updateBottomSheetShown,
+            onSearchClick = navigateToAfterSearchWithKeywordSearch,
             modifier = modifier.padding(horizontal = 15.dp)
         )
         HorizontalDivider(
@@ -117,7 +145,10 @@ fun SearchScreen(
 
         FilterBottomSheet(
             showFilterBottomSheet = showFilterBottomSheet,
-            onDismiss = updateBottomSheetShown,
+            onDismiss = { isVisible ->
+                updateBottomSheetShown(isVisible)
+                navigateToAfterSearchWithBottomSheet()
+            },
             bottomSheetDeadLineSelected = bottomSheetDeadLineSelected,
             updateSelectedDeadLine = updateSelectedDeadLine,
             bottomSheetLocationSelected = bottomSheetLocationSelected,

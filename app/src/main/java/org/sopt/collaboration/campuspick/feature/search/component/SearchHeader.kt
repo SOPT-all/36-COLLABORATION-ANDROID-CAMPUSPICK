@@ -1,6 +1,5 @@
 package org.sopt.collaboration.campuspick.feature.search.component
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +27,7 @@ fun SearchHeader(
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
     updateBottomSheetShown: (Boolean) -> Unit,
+    onSearchClick: () -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -69,9 +69,7 @@ fun SearchHeader(
                 placeholder = "찾으시는 동아리가 있나요?",
                 value = inputSearchValue,
                 onValueChange = updateInputSearch,
-                onSearchClick = {
-                    Log.d("asdasdasd", "good")
-                },
+                onSearchClick = onSearchClick,
                 modifier = Modifier.weight(1f),
                 usedOnlyNavigation = false
             )
