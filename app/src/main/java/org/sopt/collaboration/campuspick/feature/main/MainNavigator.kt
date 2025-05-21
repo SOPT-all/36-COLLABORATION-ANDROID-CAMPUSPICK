@@ -10,6 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
+import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.home.navigation.navigateHome
 import org.sopt.collaboration.campuspick.feature.others.navigation.navigateChatting
 import org.sopt.collaboration.campuspick.feature.others.navigation.navigateCommunity
@@ -23,7 +24,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = MainTab.HOME.route
+    val startDestination = Route.Search
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
@@ -62,6 +63,18 @@ internal class MainNavigator(
 
     fun navigateToSearch() {
         navController.navigate(Route.Search)
+    }
+
+    fun navigateToAfterSearch(searchType: SearchType) {
+        navController.navigate(
+            Route.AfterSearch(
+                keyword = searchType.keyword,
+                category = searchType.category,
+                deadlineType = searchType.deadline,
+                region = searchType.region,
+                clubDay = searchType.clubDay
+            )
+        )
     }
 }
 
