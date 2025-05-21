@@ -44,7 +44,7 @@ fun SearchRoute(
             when (sideEffect) {
                 NavigateAfterSearch -> navigateToAfterSearch(
                     SearchType(
-                        keyword = uiState.value.inputSearch,
+                        keyword = if (uiState.value.inputSearch.isBlank()) null else uiState.value.inputSearch,
                         category = null,
                         deadline = uiState.value.filterDeadLine.replaceDeadLine,
                         region = uiState.value.filterRegion.replaceRegion,
@@ -101,7 +101,7 @@ fun SearchScreen(
             updateBottomSheetShown = updateBottomSheetShown,
             onSearchClick = navigateToAfterSearchWithKeywordSearch,
             navigateToBack = navigateToBack,
-            modifier = modifier.padding(horizontal = 15.dp)
+            modifier = Modifier.padding(horizontal = 15.dp)
         )
         HorizontalDivider(
             thickness = 2.dp,
