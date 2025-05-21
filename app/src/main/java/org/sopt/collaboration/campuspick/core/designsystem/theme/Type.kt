@@ -5,6 +5,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
 @Immutable
@@ -26,69 +29,74 @@ data class CampuspickTypography(
     val caption4: TextStyle
 )
 
+private fun CampuspickTextSytle(
+    fontFamily: FontFamily = FontFamily.Default,
+    fontWeight: FontWeight,
+    fontSize: TextUnit,
+    lineHeight: TextUnit = 1.em,
+    letterSpacing: TextUnit = (-0.002).em
+): TextStyle = TextStyle(
+    fontFamily = fontFamily,
+    fontWeight = fontWeight,
+    fontSize = fontSize,
+    lineHeight = lineHeight,
+    letterSpacing = letterSpacing,
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
+)
+
 val defaultCampuspickTypography = CampuspickTypography(
-    heading0 = TextStyle(
-        fontFamily = FontFamily.Default,
+    heading0 = CampuspickTextSytle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp
     ),
-    heading1 = TextStyle(
-        fontFamily = FontFamily.Default,
+    heading1 = CampuspickTextSytle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
+        fontSize = 18.sp,
     ),
-    heading2 = TextStyle(
-        fontFamily = FontFamily.Default,
+    heading2 = CampuspickTextSytle(
         fontWeight = FontWeight.Normal,
-        fontSize = 17.sp
+        fontSize = 17.sp,
     ),
-    heading3 = TextStyle(
-        fontFamily = FontFamily.Default,
+    heading3 = CampuspickTextSytle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp
+        fontSize = 14.sp,
     ),
-    heading4 = TextStyle(
-        fontFamily = FontFamily.Default,
+    heading4 = CampuspickTextSytle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 17.sp
     ),
-    body0 = TextStyle(
-        fontFamily = FontFamily.Default,
+    body0 = CampuspickTextSytle(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     ),
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
+    body1 = CampuspickTextSytle(
         fontWeight = FontWeight.Normal,
         fontSize = 13.sp
     ),
-    body2 = TextStyle(
-        fontFamily = FontFamily.Default,
+    body2 = CampuspickTextSytle(
         fontWeight = FontWeight.Bold,
         fontSize = 13.sp
     ),
-    body3 = TextStyle(
-        fontFamily = FontFamily.Default,
+    body3 = CampuspickTextSytle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 15.sp
     ),
-    caption1 = TextStyle(
-        fontFamily = FontFamily.Default,
+    caption1 = CampuspickTextSytle(
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp
     ),
-    caption2 = TextStyle(
-        fontFamily = FontFamily.Default,
+    caption2 = CampuspickTextSytle(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     ),
-    caption3 = TextStyle(
-        fontFamily = FontFamily.Default,
+    caption3 = CampuspickTextSytle(
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp
     ),
-    caption4 = TextStyle(
-        fontFamily = FontFamily.Default,
+    caption4 = CampuspickTextSytle(
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp
     )
