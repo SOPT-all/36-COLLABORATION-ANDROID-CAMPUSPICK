@@ -37,20 +37,21 @@ import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.Cl
 import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
+import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
 import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.DeadLine.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine.Companion.labelFromName
 import org.sopt.collaboration.campuspick.domain.model.FilteredClub
-import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.model.PreferDay.Companion.labelFromName
-import org.sopt.collaboration.campuspick.domain.model.Region
-import org.sopt.collaboration.campuspick.domain.model.Region.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.Region.Companion.labelFromName
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.club.DivisionLine
-import org.sopt.collaboration.campuspick.feature.search.FilterBottomSheet
+import org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet.FilterBottomSheet
 import org.sopt.collaboration.campuspick.feature.search.component.FilterSearchBar
 
 @Composable
@@ -104,11 +105,11 @@ fun AfterSearchRoute(
         showFilterBottomSheet = uiState.value.showFilterBottomSheet,
         updateBottomSheetShown = viewModel::updateBottomSheetShown,
         bottomSheetDeadLineSelected = uiState.value.currentFilter.deadline.toString(),
-        bottomSheetLocationSelected = uiState.value.currentFilter.region.toString(),
-        bottomSheetPreferDaySelected = uiState.value.currentFilter.clubDay.toString(),
+        bottomSheetRegionSelected = uiState.value.currentFilter.region.toString(),
+        bottomSheetClubDaySelected = uiState.value.currentFilter.clubDay.toString(),
         updateSelectedDeadLine = viewModel::updateSelectedDeadLine,
-        updateSelectedLocation = viewModel::updateSelectedLocation,
-        updateSelectedPreferDay = viewModel::updateSelectedPreferDay,
+        updateSelectedRegion = viewModel::updateSelectedRegion,
+        updateSelectedClubDay = viewModel::updateSelectedClubDay,
         modifier = modifier
             .padding(padding)
             .addFocusCleaner(focusManager)
@@ -127,11 +128,11 @@ fun AfterSearchScreen(
     showFilterBottomSheet: Boolean,
     updateBottomSheetShown: (Boolean) -> Unit,
     bottomSheetDeadLineSelected: String,
-    bottomSheetLocationSelected: String,
-    bottomSheetPreferDaySelected: String,
+    bottomSheetRegionSelected: String,
+    bottomSheetClubDaySelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
-    updateSelectedLocation: (Region) -> Unit,
-    updateSelectedPreferDay: (PreferDay) -> Unit,
+    updateSelectedRegion: (Region) -> Unit,
+    updateSelectedClubDay: (ClubDay) -> Unit,
     modifier: Modifier,
 ) {
 
@@ -184,13 +185,13 @@ fun AfterSearchScreen(
                 ClubSearchCard(
                     data = ClubSearch(
                         tags = listOf(club.category, club.region),
-                        profile = R.drawable.img_search_advertisement_banner,
+                        profile = getImageResId(club.image),
                         author = club.name,
                         content = club.postTitle,
                         dDay = club.dDay,
                         viewCount = club.viewCount,
                         commentCount = club.commentCount,
-                        poster = R.drawable.img_search_advertisement_banner,
+                        poster = getImageResId(club.postImage),
                     ),
                     modifier = Modifier
                         .padding(horizontal = 15.dp)
@@ -206,12 +207,12 @@ fun AfterSearchScreen(
                 bottomSheetDeadLineSelected
             ),
             updateSelectedDeadLine = updateSelectedDeadLine,
-            bottomSheetLocationSelected = Region.Companion.labelFromName(bottomSheetLocationSelected),
-            updateSelectedLocation = updateSelectedLocation,
-            bottomSheetPreferDaySelected = PreferDay.Companion.labelFromName(
-                bottomSheetPreferDaySelected
+            bottomSheetRegionSelected = Region.Companion.labelFromName(bottomSheetRegionSelected),
+            updateSelectedRegion = updateSelectedRegion,
+            bottomSheetClubDaySelected = ClubDay.Companion.labelFromName(
+                bottomSheetClubDaySelected
             ),
-            updateSelectedPreferDay = updateSelectedPreferDay,
+            updateSelectedClubDay = updateSelectedClubDay,
         )
     }
 }

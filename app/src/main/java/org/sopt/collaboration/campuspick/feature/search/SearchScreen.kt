@@ -16,12 +16,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.sopt.collaboration.campuspick.R
+import org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet.FilterBottomSheet
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
-import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.Region
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.search.SearchSideEffect.NavigateAfterSearch
 import org.sopt.collaboration.campuspick.feature.search.component.RecentSearchKeyword
@@ -48,7 +49,7 @@ fun SearchRoute(
                         category = null,
                         deadline = uiState.value.filterDeadLine.replaceDeadLine,
                         region = uiState.value.filterRegion.replaceRegion,
-                        clubDay = uiState.value.filterPreferDay.replaceDay
+                        clubDay = uiState.value.filterClubDay.replaceDay
                     )
                 )
 
@@ -64,10 +65,10 @@ fun SearchRoute(
         updateBottomSheetShown = viewModel::updateBottomSheetShown,
         bottomSheetDeadLineSelected = uiState.value.filterDeadLine.label,
         updateSelectedDeadLine = viewModel::updateSelectedDeadLine,
-        bottomSheetLocationSelected = uiState.value.filterRegion.label,
-        updateSelectedLocation = viewModel::updateSelectedLocation,
-        bottomSheetPreferDaySelected = uiState.value.filterPreferDay.label,
-        updateSelectedPreferDay = viewModel::updateSelectedPreferDay,
+        bottomSheetRegionSelected = uiState.value.filterRegion.label,
+        updateSelectedRegion = viewModel::updateSelectedLocation,
+        bottomSheetClubDaySelected = uiState.value.filterClubDay.label,
+        updateSelectedClubDay = viewModel::updateSelectedPreferDay,
         navigateToAfterSearchWithKeywordSearch = viewModel::navigateToAfterSearchWithKeywordSearch,
         navigateToAfterSearchWithBottomSheet = viewModel::navigateToAfterSearchWithBottomSheet,
         navigateToBack = viewModel::navigateToBack,
@@ -85,10 +86,10 @@ fun SearchScreen(
     updateBottomSheetShown: (Boolean) -> Unit,
     bottomSheetDeadLineSelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
-    bottomSheetLocationSelected: String,
-    updateSelectedLocation: (Region) -> Unit,
-    bottomSheetPreferDaySelected: String,
-    updateSelectedPreferDay: (PreferDay) -> Unit,
+    bottomSheetRegionSelected: String,
+    updateSelectedRegion: (Region) -> Unit,
+    bottomSheetClubDaySelected: String,
+    updateSelectedClubDay: (ClubDay) -> Unit,
     navigateToAfterSearchWithKeywordSearch: () -> Unit,
     navigateToAfterSearchWithBottomSheet: () -> Unit,
     navigateToBack: () -> Unit,
@@ -152,10 +153,10 @@ fun SearchScreen(
             navigateToAfterSearchWithBottomSheet = navigateToAfterSearchWithBottomSheet,
             bottomSheetDeadLineSelected = bottomSheetDeadLineSelected,
             updateSelectedDeadLine = updateSelectedDeadLine,
-            bottomSheetLocationSelected = bottomSheetLocationSelected,
-            updateSelectedLocation = updateSelectedLocation,
-            bottomSheetPreferDaySelected = bottomSheetPreferDaySelected,
-            updateSelectedPreferDay = updateSelectedPreferDay,
+            bottomSheetRegionSelected = bottomSheetRegionSelected,
+            updateSelectedRegion = updateSelectedRegion,
+            bottomSheetClubDaySelected = bottomSheetClubDaySelected,
+            updateSelectedClubDay = updateSelectedClubDay,
         )
     }
 }

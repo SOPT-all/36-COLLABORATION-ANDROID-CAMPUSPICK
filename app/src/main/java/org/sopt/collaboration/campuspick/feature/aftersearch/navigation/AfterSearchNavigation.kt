@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
+import org.sopt.collaboration.campuspick.core.ui.navigation.Route
 import org.sopt.collaboration.campuspick.feature.aftersearch.AfterSearchRoute
 
 fun NavController.navigateAfterSearch(navOptions: NavOptions) {
