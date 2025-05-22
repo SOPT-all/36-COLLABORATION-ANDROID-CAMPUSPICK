@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.MainTabRoute
+import org.sopt.collaboration.campuspick.core.ui.navigation.MainTabRoute
 import org.sopt.collaboration.campuspick.feature.others.ChattingRoute
 import org.sopt.collaboration.campuspick.feature.others.CommunityRoute
 import org.sopt.collaboration.campuspick.feature.others.MypageRoute
