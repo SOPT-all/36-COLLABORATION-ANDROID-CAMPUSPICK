@@ -36,7 +36,6 @@ import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
-import org.sopt.collaboration.campuspick.domain.model.ClubRecruitImage
 import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
 import org.sopt.collaboration.campuspick.feature.club.component.ClubRankingCard
@@ -51,6 +50,7 @@ fun ClubRoute(
     viewModel: ClubViewModel = viewModel(factory = ViewModelFactory())
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val clubRecruitments = viewModel.clubRecruitment.collectAsStateWithLifecycle()
     val clubRanking = viewModel.clubRanking.collectAsStateWithLifecycle()
 
     ClubScreen(
@@ -60,7 +60,7 @@ fun ClubRoute(
         updateInputSearch = viewModel::updateInputSearch,
         selectedCategoryIndex = uiState.value.selectedTabIndex,
         updateSelectedCategory = viewModel::selectCategory,
-        clubRecruitmentList = viewModel.clubRecruitmentDummy,
+        clubRecruitmentList = clubRecruitments.value,
         clubRankingList = clubRanking.value,
         clubSearchList = viewModel.clubSearchDummy,
         modifier = modifier
@@ -132,9 +132,9 @@ fun PopularRecruitmentSection(clubRecruitments: List<ClubRecruitment>) {
         color = CampuspickTheme.colors.Black,
         modifier = Modifier.padding(start = 15.dp)
     )
-    Spacer(Modifier.height(20.dp))
+    Spacer(Modifier.height(15.dp))
     LazyRow(
-        contentPadding = PaddingValues(start = 15.dp),
+        contentPadding = PaddingValues(horizontal = 15.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(clubRecruitments) {
@@ -284,7 +284,7 @@ private fun ClubScreenPreview() {
         updateInputSearch = {},
         selectedCategoryIndex = 0,
         updateSelectedCategory = { },
-        clubRecruitmentList = viewModel.clubRecruitmentDummy,
+        clubRecruitmentList = emptyList(),
         clubRankingList = emptyList(),
         clubSearchList = viewModel.clubSearchDummy
     )

@@ -3,12 +3,13 @@ package org.sopt.collaboration.campuspick.data.api
 import org.sopt.collaboration.campuspick.core.network.BaseResponse
 import org.sopt.collaboration.campuspick.data.response.GetSearchClubsResponseDto
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
+import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CampusPickService {
     @GET("/$API/$V1/$CLUBS/$POPULAR")
-    suspend fun getPopularClubs()
+    suspend fun getPopularClubs(): BaseResponse<List<ClubRecruitment>>
 
     @GET("/$API/$V1/$ACTIVITIES/$POPULAR")
     suspend fun getPopularActivities()

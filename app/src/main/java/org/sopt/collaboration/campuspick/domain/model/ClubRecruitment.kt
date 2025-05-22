@@ -30,7 +30,7 @@ enum class ClubRecruitImage(
         imageId = R.drawable.img_club_recruit_playbox
     ),
     TREMOLO(
-        imageName = "club_TREMOLO",
+        imageName = "club_recruit_TREMOLO",
         imageId = R.drawable.img_club_recruit_tremolo
     ),
     FOXSTAR(
