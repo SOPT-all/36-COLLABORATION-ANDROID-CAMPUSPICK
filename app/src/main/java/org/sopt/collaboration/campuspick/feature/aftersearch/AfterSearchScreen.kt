@@ -33,25 +33,24 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.appbar.CampuspickAppBar
+import org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet.FilterBottomSheet
 import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
 import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
 import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.Region.Companion.labelFromName
 import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
-import org.sopt.collaboration.campuspick.core.ui.model.DeadLine.Companion.labelFromName
-import org.sopt.collaboration.campuspick.domain.model.FilteredClub
-import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
-import org.sopt.collaboration.campuspick.core.ui.model.ClubDay.Companion.labelFromName
-import org.sopt.collaboration.campuspick.core.ui.model.Region
-import org.sopt.collaboration.campuspick.core.ui.model.Region.Companion.labelFromName
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.club.DivisionLine
-import org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet.FilterBottomSheet
 import org.sopt.collaboration.campuspick.feature.search.component.FilterSearchBar
 
 @Composable
@@ -96,11 +95,11 @@ fun AfterSearchRoute(
     }
 
     AfterSearchScreen(
+        clubLoadState = uiState.value.clubLoadState,
         selectedCategory = Category.indexFromName(uiState.value.currentFilter.category),
         updateSelectedCategory = viewModel::updateSelectedCategory,
         inputSearchValue = uiState.value.currentFilter.keyword.toString(),
         updateInputSearch = viewModel::updateInputSearch,
-        filteredClub = uiState.value.filteredClub,
         navigateToBack = viewModel::navigateToBack,
         showFilterBottomSheet = uiState.value.showFilterBottomSheet,
         updateBottomSheetShown = viewModel::updateBottomSheetShown,
@@ -119,11 +118,11 @@ fun AfterSearchRoute(
 
 @Composable
 fun AfterSearchScreen(
+    clubLoadState: ClubLoadState,
     selectedCategory: Int,
     updateSelectedCategory: (Int) -> Unit,
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
-    filteredClub: List<FilteredClub>,
     navigateToBack: () -> Unit,
     showFilterBottomSheet: Boolean,
     updateBottomSheetShown: (Boolean) -> Unit,
@@ -181,22 +180,38 @@ fun AfterSearchScreen(
                 Spacer(modifier = Modifier.height(14.dp))
                 SecondClubFilter()
             }
-            itemsIndexed(items = filteredClub) { index, club ->
-                ClubSearchCard(
-                    data = ClubSearch(
-                        tags = listOf(club.category, club.region),
-                        profile = getImageResId(club.image),
-                        author = club.name,
-                        content = club.postTitle,
-                        dDay = club.dDay,
-                        viewCount = club.viewCount,
-                        commentCount = club.commentCount,
-                        poster = getImageResId(club.postImage),
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 15.dp)
-                        .padding(top = if (index == 0) 0.dp else 15.dp)
-                )
+
+            when (clubLoadState) {
+                ClubLoadState.Loading -> {
+                    items(3) { index ->
+                        ClubSearchCardSkeleton(
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(top = if (index == 0) 0.dp else 15.dp)
+                        )
+                    }
+                }
+
+                is ClubLoadState.Success -> {
+                    val clubs = clubLoadState.filteredClubs
+                    itemsIndexed(clubs) { index, club ->
+                        ClubSearchCard(
+                            data = ClubSearch(
+                                tags = listOf(club.category, club.region),
+                                profile = getImageResId(club.image),
+                                author = club.name,
+                                content = club.postTitle,
+                                dDay = club.dDay,
+                                viewCount = club.viewCount,
+                                commentCount = club.commentCount,
+                                poster = getImageResId(club.postImage),
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(top = if (index == 0) 0.dp else 15.dp)
+                        )
+                    }
+                }
             }
         }
         FilterBottomSheet(

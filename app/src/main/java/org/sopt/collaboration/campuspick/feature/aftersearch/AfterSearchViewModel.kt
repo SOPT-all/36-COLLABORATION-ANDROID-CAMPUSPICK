@@ -2,6 +2,7 @@ package org.sopt.collaboration.campuspick.feature.aftersearch
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
@@ -24,16 +25,29 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
             _searchFlow
                 .debounce(300L)
                 .collect {
-                    campusPickRepository.getSearchClubs(
-                        keyword = uiState.value.currentFilter.keyword,
-                        category = uiState.value.currentFilter.category,
-                        deadlineType = uiState.value.currentFilter.deadline,
-                        region = uiState.value.currentFilter.region,
-                        clubDay = uiState.value.currentFilter.clubDay
-                    ).onSuccess {
+                    intent {
+                        copy(
+                            clubLoadState = ClubLoadState.Loading
+                        )
+                    }
+                    provideSkeletonTest {
+                        campusPickRepository.getSearchClubs(
+                            keyword = uiState.value.currentFilter.keyword,
+                            category = uiState.value.currentFilter.category,
+                            deadlineType = uiState.value.currentFilter.deadline,
+                            region = uiState.value.currentFilter.region,
+                            clubDay = uiState.value.currentFilter.clubDay
+                        )
+                    }.onSuccess {
                         intent {
                             copy(
-                                filteredClub = it
+                                clubLoadState = ClubLoadState.Success(it)
+                            )
+                        }
+                    }.onFailure {
+                        intent {
+                            copy(
+                                clubLoadState = ClubLoadState.Loading
                             )
                         }
                     }
@@ -128,4 +142,17 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
     }
 
     fun navigateToBack() = postSideEffect(AfterSearchSideEffect.NavigateBack)
+
+    suspend fun <T> provideSkeletonTest(
+        minTimeMillis: Long = 500L,
+        block: suspend () -> T
+    ): T {
+        val startTime = System.currentTimeMillis()
+        val result = block()
+        val elapsed = System.currentTimeMillis() - startTime
+        if (elapsed < minTimeMillis) {
+            delay(minTimeMillis - elapsed)
+        }
+        return result
+    }
 }
