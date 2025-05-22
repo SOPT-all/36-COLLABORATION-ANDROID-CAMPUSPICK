@@ -103,11 +103,11 @@ fun ClubSearchCardSkeleton(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .width(77.dp)
-                    .height(109.dp)
+                    .height(108.dp)
                     .skeletonUiBox()
             )
         }
-        Spacer(Modifier.height(22.dp))
+        Spacer(Modifier.height(20.dp))
         DivisionLine(height = 2.dp)
     }
 }
