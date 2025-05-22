@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
+import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
@@ -18,6 +19,33 @@ class ClubViewModel(
 
     private val _clubRanking = MutableStateFlow<List<ClubRanking>>(listOf())
     val clubRanking: StateFlow<List<ClubRanking>> = _clubRanking.asStateFlow()
+
+    val clubRecruitmentDummy = listOf(
+        ClubRecruitment(
+            id = 0,
+            title = "[OVAL KOREA] 41th PD Staff Recruiting",
+            viewCount = 1647,
+            commentCount = 13,
+            image = "club_recruit_OVALKOREA",
+            dday = 17
+        ),
+        ClubRecruitment(
+            id = 0,
+            title = "댄스동아리 블랭크 BLANK에서 신입 멤버를 찾습니다!",
+            viewCount = 936,
+            commentCount = 8,
+            image = "club_recruit_BLANK",
+            dday = 20
+        ),
+        ClubRecruitment(
+            id = 0,
+            title = "플레이박스에서 게임 기획 같이 하자!",
+            viewCount = 847,
+            commentCount = 4,
+            image = "club_recruit_PLAYBOX",
+            dday = 20
+        ),
+    )
 
     val clubSearchDummy = listOf(
         ClubSearch(
