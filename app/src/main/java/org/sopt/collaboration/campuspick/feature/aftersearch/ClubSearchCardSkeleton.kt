@@ -40,12 +40,11 @@ fun ClubSearchCardSkeleton(modifier: Modifier = Modifier) {
                     items(3) {
                         Box(
                             modifier = Modifier
-                                .height(22.dp)
-                                .width(50.dp)
+                                .height(24.dp)
+                                .width(40.dp)
                                 .skeletonUiBox(
                                     clipShape = CircleShape,
                                     paddingValues = PaddingValues(
-                                        horizontal = 8.dp,
                                         vertical = 3.dp
                                     )
                                 )
@@ -80,21 +79,21 @@ fun ClubSearchCardSkeleton(modifier: Modifier = Modifier) {
                 ) {
                     Box(
                         modifier = Modifier
-                            .height(12.dp)
+                            .height(14.dp)
                             .width(30.dp)
                             .skeletonUiBox(clipShape = CircleShape)
                     )
                     Spacer(Modifier.width(5.dp))
                     Box(
                         modifier = Modifier
-                            .height(12.dp)
+                            .height(14.dp)
                             .width(30.dp)
                             .skeletonUiBox(clipShape = CircleShape)
                     )
                     Spacer(Modifier.width(5.dp))
                     Box(
                         modifier = Modifier
-                            .height(12.dp)
+                            .height(14.dp)
                             .width(30.dp)
                             .skeletonUiBox(clipShape = CircleShape)
                     )
