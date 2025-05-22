@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.domain.model
+package org.sopt.collaboration.campuspick.core.ui.model
 
 enum class DeadLine(val label: String) {
     EMPTY(""),
@@ -53,7 +53,7 @@ enum class Region(val label: String) {
     }
 }
 
-enum class PreferDay(val label: String) {
+enum class ClubDay(val label: String) {
     EMPTY(""),
     ALL("전체"),
     MONDAY("월"),
@@ -67,13 +67,13 @@ enum class PreferDay(val label: String) {
         get() = if (this == ALL || this == EMPTY) null else name
 
     companion object {
-        fun PreferDay.Companion.fromLabel(label: String): PreferDay {
-            return PreferDay.entries.find { it.label == label } ?: EMPTY
+        fun ClubDay.Companion.fromLabel(label: String): ClubDay {
+            return ClubDay.entries.find { it.label == label } ?: EMPTY
         }
 
-        fun PreferDay.Companion.labelFromName(name: String?): String {
+        fun ClubDay.Companion.labelFromName(name: String?): String {
             return name?.let {
-                PreferDay.entries.find { it.name == name }?.label
+                ClubDay.entries.find { it.name == name }?.label
             } ?: ALL.label
         }
     }

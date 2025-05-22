@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.feature.search
+package org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,13 +19,13 @@ import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.designsystem.component.button.FilterChip
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
-import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.DeadLine.Companion.fromLabel
-import org.sopt.collaboration.campuspick.domain.model.FilterSection
-import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.model.PreferDay.Companion.fromLabel
-import org.sopt.collaboration.campuspick.domain.model.Region
-import org.sopt.collaboration.campuspick.domain.model.Region.Companion.fromLabel
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine.Companion.fromLabel
+import org.sopt.collaboration.campuspick.core.ui.model.FilterSection
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay.Companion.fromLabel
+import org.sopt.collaboration.campuspick.core.ui.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.Region.Companion.fromLabel
 import org.sopt.collaboration.campuspick.feature.search.component.SearchKeyword
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,10 +36,10 @@ fun FilterBottomSheet(
     navigateToAfterSearchWithBottomSheet: () -> Unit,
     bottomSheetDeadLineSelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
-    bottomSheetLocationSelected: String,
-    updateSelectedLocation: (Region) -> Unit,
-    bottomSheetPreferDaySelected: String,
-    updateSelectedPreferDay: (PreferDay) -> Unit,
+    bottomSheetRegionSelected: String,
+    updateSelectedRegion: (Region) -> Unit,
+    bottomSheetClubDaySelected: String,
+    updateSelectedClubDay: (ClubDay) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(
@@ -112,24 +112,24 @@ fun FilterBottomSheet(
                             keywordType = { label ->
                                 FilterChip(
                                     buttonText = label,
-                                    isSelected = bottomSheetLocationSelected == label,
+                                    isSelected = bottomSheetRegionSelected == label,
                                     onClick = {
-                                        Region.fromLabel(label).let(updateSelectedLocation)
+                                        Region.fromLabel(label).let(updateSelectedRegion)
                                     }
                                 )
                             }
                         ),
                         FilterSection(
                             title = "활동 선호 요일",
-                            keywords = PreferDay.entries.filter {
-                                it != PreferDay.EMPTY
+                            keywords = ClubDay.entries.filter {
+                                it != ClubDay.EMPTY
                             }.map { it.label },
                             keywordType = { label ->
                                 FilterChip(
                                     buttonText = label,
-                                    isSelected = bottomSheetPreferDaySelected == label,
+                                    isSelected = bottomSheetClubDaySelected == label,
                                     onClick = {
-                                        PreferDay.fromLabel(label).let(updateSelectedPreferDay)
+                                        ClubDay.fromLabel(label).let(updateSelectedClubDay)
                                     }
                                 )
                             }
