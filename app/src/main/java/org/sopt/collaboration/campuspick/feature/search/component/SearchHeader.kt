@@ -60,40 +60,58 @@ fun SearchHeader(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CampuspickSearchBar(
-                placeholder = "찾으시는 동아리가 있나요?",
-                value = inputSearchValue,
-                onValueChange = updateInputSearch,
-                onSearchClick = onSearchClick,
-                modifier = Modifier.weight(1f),
-                usedOnlyNavigation = false
-            )
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(
-                        color = CampuspickTheme.colors.Gray4,
-                        shape = CircleShape
-                    )
-                    .customClickable(
-                        rippleEnabled = false,
-                        onClick = { updateBottomSheetShown(true) }
-                    )
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_filter),
-                    contentDescription = "filter",
-                    tint = Color.Unspecified,
+        FilterSearchBar(
+            filterSelected = false,
+            inputSearchValue = inputSearchValue,
+            updateInputSearch = updateInputSearch,
+            updateBottomSheetShown = updateBottomSheetShown,
+            onSearchClick = onSearchClick
+        )
+    }
+}
+
+@Composable
+fun FilterSearchBar(
+    filterSelected: Boolean,
+    inputSearchValue: String,
+    updateInputSearch: (String) -> Unit,
+    updateBottomSheetShown: (Boolean) -> Unit,
+    onSearchClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        CampuspickSearchBar(
+            placeholder = "찾으시는 동아리가 있나요?",
+            value = inputSearchValue,
+            onValueChange = updateInputSearch,
+            onSearchClick = onSearchClick,
+            modifier = Modifier.weight(1f),
+            usedOnlyNavigation = false
+        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .size(40.dp)
+                .background(
+                    color = if (filterSelected) CampuspickTheme.colors.SkyBlue else CampuspickTheme.colors.Gray4,
+                    shape = CircleShape
                 )
-            }
+                .customClickable(
+                    rippleEnabled = false,
+                    onClick = { updateBottomSheetShown(true) }
+                )
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_filter),
+                contentDescription = "filter",
+                tint = if (filterSelected) CampuspickTheme.colors.Blue else Color.Unspecified,
+            )
         }
     }
-
 }
 
 @Composable

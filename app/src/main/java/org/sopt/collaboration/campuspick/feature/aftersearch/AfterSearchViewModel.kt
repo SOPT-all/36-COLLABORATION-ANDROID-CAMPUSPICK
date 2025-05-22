@@ -1,45 +1,44 @@
 package org.sopt.collaboration.campuspick.feature.aftersearch
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
+import org.sopt.collaboration.campuspick.domain.model.Category
+import org.sopt.collaboration.campuspick.domain.model.DeadLine
+import org.sopt.collaboration.campuspick.domain.model.PreferDay
+import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
 class AfterSearchViewModel(private val campusPickRepository: CampusPickRepository) :
     BaseViewModel<AfterSearchState, AfterSearchSideEffect>(AfterSearchState()) {
 
     fun updateCurrentFilter(
-        keyword: String = uiState.value.currentKeyword,
-        category: String = uiState.value.currentCategory,
-        deadLine: String = uiState.value.currentDeadLine,
-        region: String = uiState.value.currentRegion,
-        clubDay: String = uiState.value.currentClubDay
+        searchType: SearchType = SearchType(
+            keyword = uiState.value.currentFilter.keyword,
+            category = uiState.value.currentFilter.category,
+            deadline = uiState.value.currentFilter.deadline,
+            region = uiState.value.currentFilter.region,
+            clubDay = uiState.value.currentFilter.clubDay
+        )
     ) {
         intent {
             copy(
-                currentKeyword = keyword,
-                currentCategory = category,
-                currentDeadLine = deadLine,
-                currentRegion = region,
-                currentClubDay = clubDay
+                currentFilter = searchType
             )
         }
     }
 
-    fun getFilteredClub(
-        keyword: String?,
-        category: String?,
-        deadlineType: String?,
-        region: String?,
-        clubDay: String?,
-    ) {
+    fun getFilteredClub() {
         viewModelScope.launch {
+            delay(300L)
             campusPickRepository.getSearchClubs(
-                keyword = keyword,
-                category = category,
-                deadlineType = deadlineType,
-                region = region,
-                clubDay = clubDay
+                keyword = uiState.value.currentFilter.keyword,
+                category = uiState.value.currentFilter.category,
+                deadlineType = uiState.value.currentFilter.deadline,
+                region = uiState.value.currentFilter.region,
+                clubDay = uiState.value.currentFilter.clubDay
             ).onSuccess {
                 intent {
                     copy(
@@ -49,4 +48,70 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
             }
         }
     }
+
+    fun updateSelectedCategory(categoryIndex: Int) {
+        val categoryName =
+            if (categoryIndex == 0) null else Category.entries.getOrNull(categoryIndex)?.name
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(category = categoryName)
+            )
+        }
+    }
+
+    fun updateInputSearch(inputSearch: String) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(keyword = inputSearch)
+            )
+        }
+    }
+
+    fun updateBottomSheetShown(shown: Boolean) {
+        intent {
+            copy(showFilterBottomSheet = shown)
+        }
+    }
+
+    fun updateSelectedDeadLine(deadLine: DeadLine) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(
+                    deadline =
+                        if (uiState.value.currentFilter.deadline == deadLine.name)
+                            DeadLine.EMPTY.replaceDeadLine
+                        else deadLine.replaceDeadLine
+                )
+            )
+        }
+    }
+
+    fun updateSelectedLocation(region: Region) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(
+                    region =
+                        if (uiState.value.currentFilter.region == region.name)
+                            Region.EMPTY.replaceRegion
+                        else region.replaceRegion
+                )
+            )
+        }
+    }
+
+    fun updateSelectedPreferDay(preferDay: PreferDay) {
+        intent {
+            copy(
+                currentFilter = currentFilter.copy(
+                    clubDay =
+                        if (uiState.value.currentFilter.clubDay == preferDay.name)
+                            PreferDay.EMPTY.replaceDay
+                        else
+                            preferDay.replaceDay
+                )
+            )
+        }
+    }
+
+    fun navigateToBack() = postSideEffect(AfterSearchSideEffect.NavigateBack)
 }

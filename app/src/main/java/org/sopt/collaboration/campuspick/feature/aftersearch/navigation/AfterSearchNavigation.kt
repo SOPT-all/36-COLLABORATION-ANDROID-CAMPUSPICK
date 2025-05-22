@@ -30,7 +30,7 @@ fun NavGraphBuilder.afterSearchNavGraph(
             padding = padding,
             keyword = keyword,
             category = category,
-            deadlineType = deadlineType,
+            deadline = deadlineType,
             region = region,
             clubDay = clubDay,
             navigateToBack = navigateToBack,

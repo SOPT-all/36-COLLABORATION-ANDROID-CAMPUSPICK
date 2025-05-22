@@ -15,6 +15,12 @@ enum class DeadLine(val label: String) {
         fun DeadLine.Companion.fromLabel(label: String): DeadLine {
             return entries.find { it.label == label } ?: EMPTY
         }
+
+        fun DeadLine.Companion.labelFromName(name: String?): String {
+            return name?.let {
+                entries.find { it.name == name }?.label
+            } ?: ALL.label
+        }
     }
 }
 
@@ -38,6 +44,12 @@ enum class Region(val label: String) {
         fun Region.Companion.fromLabel(label: String): Region {
             return Region.entries.find { it.label == label } ?: EMPTY
         }
+
+        fun Region.Companion.labelFromName(name: String?): String {
+            return name?.let {
+                Region.entries.find { it.name == name }?.label
+            } ?: NATIONWIDE.label
+        }
     }
 }
 
@@ -57,6 +69,12 @@ enum class PreferDay(val label: String) {
     companion object {
         fun PreferDay.Companion.fromLabel(label: String): PreferDay {
             return PreferDay.entries.find { it.label == label } ?: EMPTY
+        }
+
+        fun PreferDay.Companion.labelFromName(name: String?): String {
+            return name?.let {
+                PreferDay.entries.find { it.name == name }?.label
+            } ?: ALL.label
         }
     }
 }

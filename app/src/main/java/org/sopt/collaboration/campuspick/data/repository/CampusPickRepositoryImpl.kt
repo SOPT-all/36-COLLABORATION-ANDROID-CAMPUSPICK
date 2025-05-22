@@ -49,7 +49,7 @@ class CampusPickRepositoryImpl(
                 id = it.clubInfo.id,
                 name = it.clubInfo.name,
                 image = it.clubInfo.image,
-                category = it.clubInfo.image,
+                category = it.clubInfo.category,
                 region = it.clubInfo.region,
                 clubDay = it.clubInfo.clubDay,
                 postTitle = it.recruitPost.title,
