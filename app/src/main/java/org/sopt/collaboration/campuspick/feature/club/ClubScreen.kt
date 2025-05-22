@@ -79,7 +79,6 @@ fun ClubScreen(
     ) {
         //TODO: 스크롤 영역 지정
         item {
-            Spacer(Modifier.height(23.dp))
             CampuspickAppBar(
                 onBackClick = navigateBack
             )

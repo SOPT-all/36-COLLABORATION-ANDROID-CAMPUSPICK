@@ -73,7 +73,7 @@ fun AfterSearchRoute(
     BackHandler {
         viewModel.navigateToBack()
     }
-    
+
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
