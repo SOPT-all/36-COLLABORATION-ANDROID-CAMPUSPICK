@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.feature.aftersearch
+package org.sopt.collaboration.campuspick.core.designsystem.component.cardview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

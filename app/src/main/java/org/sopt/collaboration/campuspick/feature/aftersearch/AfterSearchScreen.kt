@@ -35,6 +35,7 @@ import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.appbar.CampuspickAppBar
 import org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet.FilterBottomSheet
 import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
+import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCardSkeleton
 import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
