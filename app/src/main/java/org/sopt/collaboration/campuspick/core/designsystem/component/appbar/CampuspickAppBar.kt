@@ -29,9 +29,7 @@ fun CampuspickAppBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            HeaderBackButton {
-                onBackClick
-            }
+            HeaderBackButton(onClick = onBackClick)
             Text(
                 text = "내 활동",
                 style = CampuspickTheme.typography.heading1,

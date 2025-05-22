@@ -16,7 +16,7 @@ fun NavController.navigateAfterSearch(navOptions: NavOptions) {
 
 fun NavGraphBuilder.afterSearchNavGraph(
     padding: PaddingValues,
-    navigateToBack: () -> Unit,
+    navigateBackToClub: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     composable<Route.AfterSearch> { entry ->
@@ -33,7 +33,7 @@ fun NavGraphBuilder.afterSearchNavGraph(
             deadline = deadlineType,
             region = region,
             clubDay = clubDay,
-            navigateToBack = navigateToBack,
+            navigateBackToClub = navigateBackToClub,
             modifier = modifier
         )
     }

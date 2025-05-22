@@ -58,6 +58,13 @@ internal class MainNavigator(
         navController.popBackStack()
     }
 
+    fun navigateBackToClub(){
+        navController.popBackStack(
+            route = Route.Club,
+            inclusive = false
+        )
+    }
+
     fun navigateToClub() {
         navController.navigate(Route.Club)
     }

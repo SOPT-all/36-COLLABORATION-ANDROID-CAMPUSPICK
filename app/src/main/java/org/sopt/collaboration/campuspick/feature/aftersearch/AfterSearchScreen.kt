@@ -1,5 +1,6 @@
 package org.sopt.collaboration.campuspick.feature.aftersearch
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -62,17 +63,21 @@ fun AfterSearchRoute(
     deadline: String?,
     region: String?,
     clubDay: String?,
-    navigateToBack: () -> Unit,
+    navigateBackToClub: () -> Unit,
     modifier: Modifier,
     viewModel: AfterSearchViewModel = viewModel(factory = ViewModelFactory())
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
 
+    BackHandler {
+        viewModel.navigateToBack()
+    }
+    
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                AfterSearchSideEffect.NavigateBack -> navigateToBack()
+                AfterSearchSideEffect.NavigateBack -> navigateBackToClub()
             }
         }
     }
@@ -184,7 +189,7 @@ fun AfterSearchScreen(
 
             when (clubLoadState) {
                 ClubLoadState.Loading -> {
-                    items(3) { index ->
+                    items(4) { index ->
                         ClubSearchCardSkeleton(
                             modifier = Modifier
                                 .padding(horizontal = 15.dp)
