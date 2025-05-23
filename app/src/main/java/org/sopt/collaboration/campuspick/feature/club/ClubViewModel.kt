@@ -1,6 +1,5 @@
 package org.sopt.collaboration.campuspick.feature.club
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -69,10 +68,6 @@ class ClubViewModel(
         campusPickRepository.getPopularClubs()
             .onSuccess {
                 _clubRecruitment.value = it
-                Log.d("ClubVM", it.toString())
-            }
-            .onFailure {
-                Log.d("ClubVM", it.toString())
             }
     }
 
@@ -80,10 +75,6 @@ class ClubViewModel(
         campusPickRepository.getRankClubs()
             .onSuccess {
                 _clubRanking.value = it
-                Log.d("ClubVM", it.toString())
-            }
-            .onFailure {
-                Log.d("ClubVM", it.toString())
             }
     }
 
