@@ -26,33 +26,33 @@ class ClubViewModel(
     val clubSearchDummy = listOf(
         ClubSearch(
             tags = listOf("기타", "수도권"),
-            profile = R.drawable.ic_launcher_background,
+            profile = R.drawable.img_club_cresol,
             author = "콕티에르",
             content = "\uD83C\uDF7B라이프 스타일 주류 커뮤니티 [COQUETIER] 21.5기 모집\uD83C\uDF7B",
             dDay = 7,
-            viewCount = 144,
+            viewCount = 146,
             commentCount = 187,
-            poster = R.drawable.ic_launcher_background
+            poster = R.drawable.img_club_recruit_coquetier
         ),
         ClubSearch(
             tags = listOf("기타", "수도권"),
-            profile = R.drawable.ic_launcher_background,
+            profile = R.drawable.img_club_playbox,
             author = "플레이박스",
             content = "플레이박스 16.5기 모집",
             dDay = 7,
             viewCount = 144,
-            commentCount = 187,
-            poster = R.drawable.ic_launcher_background
+            commentCount = 24,
+            poster = R.drawable.img_club_recruit_playbox
         ),
         ClubSearch(
             tags = listOf("문화/예술/공연", "수도권"),
-            profile = R.drawable.ic_launcher_background,
+            profile = R.drawable.img_club_bethenose,
             author = "bethenose",
             content = "향수 좋아하세요? bethenose 1기 모집합니다.",
-            dDay = 7,
-            viewCount = 144,
-            commentCount = 187,
-            poster = R.drawable.ic_launcher_background
+            dDay = 8,
+            viewCount = 101,
+            commentCount = 18,
+            poster = R.drawable.img_club_recruit_bethenose
         ),
     )
 
