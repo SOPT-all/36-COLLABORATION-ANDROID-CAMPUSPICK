@@ -1,10 +1,10 @@
 package org.sopt.collaboration.campuspick.core.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.sopt.collaboration.campuspick.data.api.ApiFactory
 import org.sopt.collaboration.campuspick.data.repository.CampusPickRepositoryImpl
+import org.sopt.collaboration.campuspick.feature.club.ClubViewModel
 import org.sopt.collaboration.campuspick.feature.aftersearch.AfterSearchViewModel
 import org.sopt.collaboration.campuspick.feature.home.HomeViewModel
 
@@ -14,6 +14,12 @@ class ViewModelFactory : ViewModelProvider.Factory {
 
             HomeViewModel::class.java -> {
                 HomeViewModel(
+                    CampusPickRepositoryImpl(ApiFactory.ServicePool.campusPickService)
+                ) as T
+            }
+
+            ClubViewModel::class.java -> {
+                ClubViewModel(
                     CampusPickRepositoryImpl(ApiFactory.ServicePool.campusPickService)
                 ) as T
             }

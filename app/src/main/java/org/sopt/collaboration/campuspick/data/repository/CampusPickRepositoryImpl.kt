@@ -1,6 +1,8 @@
 package org.sopt.collaboration.campuspick.data.repository
 
 import org.sopt.collaboration.campuspick.data.api.CampusPickService
+import org.sopt.collaboration.campuspick.domain.model.ClubRanking
+import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import org.sopt.collaboration.campuspick.domain.model.FilteredClub
 import org.sopt.collaboration.campuspick.domain.model.PopularActivity
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
@@ -8,8 +10,19 @@ import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 class CampusPickRepositoryImpl(
     private val campusPickService: CampusPickService
 ) : CampusPickRepository {
-    override suspend fun getPopularClubs() {
-        TODO("Not yet implemented")
+    override suspend fun getPopularClubs(): Result<List<ClubRecruitment>> = runCatching {
+        campusPickService.getPopularClubs().data
+    }.mapCatching {
+        it.map {
+            ClubRecruitment(
+                id = it.id,
+                title = it.title,
+                viewCount = it.viewCount,
+                commentCount = it.commentCount,
+                image = it.image,
+                dday = it.dday
+            )
+        }
     }
 
     override suspend fun getPopularActivities(): Result<List<PopularActivity>> = runCatching {
@@ -24,8 +37,17 @@ class CampusPickRepositoryImpl(
         }
     }
 
-    override suspend fun getRankClubs() {
-        TODO("Not yet implemented")
+    override suspend fun getRankClubs(): Result<List<ClubRanking>> = runCatching {
+        campusPickService.getRankClubs().data
+    }.mapCatching {
+        it.map {
+            ClubRanking(
+                id = it.id,
+                clubName = it.clubName,
+                clubIntroduce = it.clubIntroduce,
+                clubImage = it.clubImage,
+            )
+        }
     }
 
     override suspend fun getSearchClubs(

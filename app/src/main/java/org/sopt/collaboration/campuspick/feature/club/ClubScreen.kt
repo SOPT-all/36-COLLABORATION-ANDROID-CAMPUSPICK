@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,15 +28,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.appbar.CampuspickAppBar
+import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
+import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.component.textfield.CampuspickSearchBar
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
+import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
+import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.feature.club.component.ClubRankingCard
-import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
+import org.sopt.collaboration.campuspick.feature.club.component.ClubRecruitmentCard
 
 @Composable
 fun ClubRoute(
@@ -42,9 +47,11 @@ fun ClubRoute(
     modifier: Modifier,
     navigateBack: () -> Unit,
     navigateToSearch: () -> Unit,
-    viewModel: ClubViewModel = viewModel()
+    viewModel: ClubViewModel = viewModel(factory = ViewModelFactory())
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val clubRecruitments = viewModel.clubRecruitment.collectAsStateWithLifecycle()
+    val clubRanking = viewModel.clubRanking.collectAsStateWithLifecycle()
 
     ClubScreen(
         navigateBack = navigateBack,
@@ -53,7 +60,8 @@ fun ClubRoute(
         updateInputSearch = viewModel::updateInputSearch,
         selectedCategoryIndex = uiState.value.selectedTabIndex,
         updateSelectedCategory = viewModel::selectCategory,
-        clubRankingList = viewModel.rankingDummy,
+        clubRecruitmentList = clubRecruitments.value,
+        clubRankingList = clubRanking.value,
         clubSearchList = viewModel.clubSearchDummy,
         modifier = modifier
             .padding(padding)
@@ -68,6 +76,7 @@ fun ClubScreen(
     updateInputSearch: (String) -> Unit,
     selectedCategoryIndex: Int,
     updateSelectedCategory: (Int) -> Unit,
+    clubRecruitmentList: List<ClubRecruitment>,
     clubRankingList: List<ClubRanking>,
     clubSearchList: List<ClubSearch>,
     modifier: Modifier = Modifier
@@ -102,7 +111,7 @@ fun ClubScreen(
             DivisionLine()
         }
         item { // 인기 모집 공고
-            PopularRecruitmentSection()
+            PopularRecruitmentSection(clubRecruitmentList)
         }
         item { // 동아리 랭킹
             ClubRankingSection(clubRankingList)
@@ -114,7 +123,7 @@ fun ClubScreen(
 }
 
 @Composable
-fun PopularRecruitmentSection() {
+fun PopularRecruitmentSection(clubRecruitments: List<ClubRecruitment>) {
     Spacer(Modifier.height(23.dp))
     Text(
         text = "인기 모집 공고",
@@ -122,8 +131,18 @@ fun PopularRecruitmentSection() {
         color = CampuspickTheme.colors.Black,
         modifier = Modifier.padding(start = 15.dp)
     )
-    Spacer(Modifier.height(20.dp))
-    //TODO: 인기 모집 공고 LazyRow 추가
+    Spacer(Modifier.height(15.dp))
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 15.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        items(clubRecruitments) {
+            ClubRecruitmentCard(
+                data = it
+            )
+        }
+    }
+    Spacer(Modifier.height(28.dp))
     DivisionLine()
 }
 
@@ -155,6 +174,7 @@ fun ClubRankingSection(clubRankings: List<ClubRanking>) {
                 .padding(top = if (index == 0) 0.dp else 15.dp)
         ) {
             ClubRankingCard(
+                index = index,
                 data = clubData,
             )
         }
@@ -263,7 +283,8 @@ private fun ClubScreenPreview() {
         updateInputSearch = {},
         selectedCategoryIndex = 0,
         updateSelectedCategory = { },
-        clubRankingList = viewModel.rankingDummy,
+        clubRecruitmentList = emptyList(),
+        clubRankingList = emptyList(),
         clubSearchList = viewModel.clubSearchDummy
     )
 }

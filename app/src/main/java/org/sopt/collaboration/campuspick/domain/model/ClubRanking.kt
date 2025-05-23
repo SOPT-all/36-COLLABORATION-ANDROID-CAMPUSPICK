@@ -1,8 +1,11 @@
 package org.sopt.collaboration.campuspick.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ClubRanking(
-    val ranking: Int,
-    val title: String,
-    val description: String,
-    val imageId: Int
+    val id: Int,
+    val clubName: String,
+    val clubIntroduce: String,
+    val clubImage: String
 )
