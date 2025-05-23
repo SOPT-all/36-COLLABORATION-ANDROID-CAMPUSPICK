@@ -1,65 +1,82 @@
 package org.sopt.collaboration.campuspick.feature.club
 
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
+import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
+import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
-class ClubViewModel() : BaseViewModel<ClubState, ClubSideEffect>(ClubState()) {
-    val rankingDummy = listOf(
-        ClubRanking(
-            ranking = 1,
-            title = "미팅 놈들",
-            description = "MEET, EAT, CONNECT “MEATING PEOPLE”",
-            imageId = R.drawable.ic_launcher_background
-        ),
-        ClubRanking(
-            ranking = 2,
-            title = "☀\uFE0F오늘, 내일☀\uFE0F",
-            description = "서울 및 수도권 지역 문화탐방 동아리 “오늘,내일\"",
-            imageId = R.drawable.ic_launcher_background
-        ),
-        ClubRanking(
-            ranking = 3,
-            title = "Buddyz",
-            description = "전시/문화 관람 동아리로 활동인원 누적 2,500명",
-            imageId = R.drawable.ic_launcher_background
-        ),
-    )
+class ClubViewModel(
+    private val campusPickRepository: CampusPickRepository
+) : BaseViewModel<ClubState, ClubSideEffect>(ClubState()) {
+
+    private val _clubRecruitment = MutableStateFlow<List<ClubRecruitment>>(listOf())
+    val clubRecruitment: StateFlow<List<ClubRecruitment>> = _clubRecruitment.asStateFlow()
+
+    private val _clubRanking = MutableStateFlow<List<ClubRanking>>(listOf())
+    val clubRanking: StateFlow<List<ClubRanking>> = _clubRanking.asStateFlow()
 
     val clubSearchDummy = listOf(
         ClubSearch(
             tags = listOf("기타", "수도권"),
-            profile = R.drawable.ic_launcher_background,
+            profile = R.drawable.img_club_cresol,
             author = "콕티에르",
             content = "\uD83C\uDF7B라이프 스타일 주류 커뮤니티 [COQUETIER] 21.5기 모집\uD83C\uDF7B",
             dDay = 7,
-            viewCount = 144,
+            viewCount = 146,
             commentCount = 187,
-            poster = R.drawable.ic_launcher_background
+            poster = R.drawable.img_club_recruit_coquetier
         ),
         ClubSearch(
             tags = listOf("기타", "수도권"),
-            profile = R.drawable.ic_launcher_background,
+            profile = R.drawable.img_club_playbox,
             author = "플레이박스",
             content = "플레이박스 16.5기 모집",
             dDay = 7,
             viewCount = 144,
-            commentCount = 187,
-            poster = R.drawable.ic_launcher_background
+            commentCount = 24,
+            poster = R.drawable.img_club_recruit_playbox
         ),
         ClubSearch(
             tags = listOf("문화/예술/공연", "수도권"),
-            profile = R.drawable.ic_launcher_background,
+            profile = R.drawable.img_club_bethenose,
             author = "bethenose",
             content = "향수 좋아하세요? bethenose 1기 모집합니다.",
-            dDay = 7,
-            viewCount = 144,
-            commentCount = 187,
-            poster = R.drawable.ic_launcher_background
+            dDay = 8,
+            viewCount = 101,
+            commentCount = 18,
+            poster = R.drawable.img_club_recruit_bethenose
         ),
     )
 
+    init {
+        viewModelScope.launch {
+            getClubRecruitment()
+        }
+        viewModelScope.launch {
+            getRankClubs()
+        }
+    }
+
+    private suspend fun getClubRecruitment() {
+        campusPickRepository.getPopularClubs()
+            .onSuccess {
+                _clubRecruitment.value = it
+            }
+    }
+
+    private suspend fun getRankClubs() {
+        campusPickRepository.getRankClubs()
+            .onSuccess {
+                _clubRanking.value = it
+            }
+    }
 
     fun selectCategory(index: Int) {
         intent {

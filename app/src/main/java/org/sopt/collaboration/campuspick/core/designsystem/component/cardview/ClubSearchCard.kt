@@ -23,13 +23,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.button.TagLabel
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.feature.club.ClubViewModel
 import org.sopt.collaboration.campuspick.feature.club.DivisionLine
 
 @Composable
@@ -76,7 +74,9 @@ fun ClubSearchCard(
                     color = CampuspickTheme.colors.Gray1
                 )
                 Spacer(Modifier.height(15.dp))
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
                         text = "D-${data.dDay}",
                         style = CampuspickTheme.typography.caption1,
@@ -132,6 +132,16 @@ fun ClubSearchCard(
 @DefaultPreview
 @Composable
 private fun ClubSearchCardPreview() {
-    val viewModel: ClubViewModel = viewModel()
-    ClubSearchCard(viewModel.clubSearchDummy.first())
+    ClubSearchCard(
+        ClubSearch(
+            tags = listOf("기타", "수도권"),
+            profile = R.drawable.ic_launcher_background,
+            author = "콕티에르",
+            content = "\uD83C\uDF7B라이프 스타일 주류 커뮤니티 [COQUETIER] 21.5기 모집\uD83C\uDF7B",
+            dDay = 7,
+            viewCount = 144,
+            commentCount = 187,
+            poster = R.drawable.ic_launcher_background
+        ),
+    )
 }

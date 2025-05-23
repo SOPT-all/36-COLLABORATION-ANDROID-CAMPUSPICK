@@ -1,6 +1,7 @@
 package org.sopt.collaboration.campuspick.core.designsystem.component.cardview
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -86,6 +87,7 @@ private fun CardContent(
 ) {
     Column(
         modifier = modifier
+            .background(CampuspickTheme.colors.Gray5)
             .padding(
                 horizontal = cardContentHorizontalPadding,
                 vertical = cardContentVerticalPadding
