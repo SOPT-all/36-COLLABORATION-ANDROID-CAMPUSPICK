@@ -49,7 +49,7 @@ internal fun MainNavHost(
             )
             afterSearchNavGraph(
                 padding = padding,
-                navigateToBack = navigator::navigateBack
+                navigateBackToClub = navigator::navigateBackToClub
             )
 
             //dummy

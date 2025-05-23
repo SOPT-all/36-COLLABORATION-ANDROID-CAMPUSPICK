@@ -2,16 +2,16 @@ package org.sopt.collaboration.campuspick.feature.search
 
 import org.sopt.collaboration.campuspick.core.ui.base.SideEffect
 import org.sopt.collaboration.campuspick.core.ui.base.UiState
-import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.Region
 
 data class SearchState(
     val inputSearch: String = "",
     val showFilterBottomSheet: Boolean = false,
     val filterDeadLine: DeadLine = DeadLine.EMPTY,
     val filterRegion: Region = Region.EMPTY,
-    val filterPreferDay: PreferDay = PreferDay.EMPTY,
+    val filterClubDay: ClubDay = ClubDay.EMPTY,
 ) : UiState
 
 sealed interface SearchSideEffect : SideEffect {

@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.core.designsystem.navigation
+package org.sopt.collaboration.campuspick.core.ui.navigation
 
 import kotlinx.serialization.Serializable
 

@@ -1,5 +1,6 @@
 package org.sopt.collaboration.campuspick.feature.aftersearch
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,24 +34,25 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.appbar.CampuspickAppBar
+import org.sopt.collaboration.campuspick.core.designsystem.component.bottomsheet.FilterBottomSheet
 import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCard
+import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.ClubSearchCardSkeleton
 import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
+import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine.Companion.labelFromName
+import org.sopt.collaboration.campuspick.core.ui.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.Region.Companion.labelFromName
 import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
 import org.sopt.collaboration.campuspick.domain.model.Category
 import org.sopt.collaboration.campuspick.domain.model.ClubSearch
-import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.DeadLine.Companion.labelFromName
-import org.sopt.collaboration.campuspick.domain.model.FilteredClub
-import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.model.PreferDay.Companion.labelFromName
-import org.sopt.collaboration.campuspick.domain.model.Region
-import org.sopt.collaboration.campuspick.domain.model.Region.Companion.labelFromName
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.club.DivisionLine
-import org.sopt.collaboration.campuspick.feature.search.FilterBottomSheet
 import org.sopt.collaboration.campuspick.feature.search.component.FilterSearchBar
 
 @Composable
@@ -61,17 +63,21 @@ fun AfterSearchRoute(
     deadline: String?,
     region: String?,
     clubDay: String?,
-    navigateToBack: () -> Unit,
+    navigateBackToClub: () -> Unit,
     modifier: Modifier,
     viewModel: AfterSearchViewModel = viewModel(factory = ViewModelFactory())
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
 
+    BackHandler {
+        viewModel.navigateToBack()
+    }
+
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                AfterSearchSideEffect.NavigateBack -> navigateToBack()
+                AfterSearchSideEffect.NavigateBack -> navigateBackToClub()
             }
         }
     }
@@ -95,20 +101,20 @@ fun AfterSearchRoute(
     }
 
     AfterSearchScreen(
+        clubLoadState = uiState.value.clubLoadState,
         selectedCategory = Category.indexFromName(uiState.value.currentFilter.category),
         updateSelectedCategory = viewModel::updateSelectedCategory,
         inputSearchValue = uiState.value.currentFilter.keyword.toString(),
         updateInputSearch = viewModel::updateInputSearch,
-        filteredClub = uiState.value.filteredClub,
         navigateToBack = viewModel::navigateToBack,
         showFilterBottomSheet = uiState.value.showFilterBottomSheet,
         updateBottomSheetShown = viewModel::updateBottomSheetShown,
         bottomSheetDeadLineSelected = uiState.value.currentFilter.deadline.toString(),
-        bottomSheetLocationSelected = uiState.value.currentFilter.region.toString(),
-        bottomSheetPreferDaySelected = uiState.value.currentFilter.clubDay.toString(),
+        bottomSheetRegionSelected = uiState.value.currentFilter.region.toString(),
+        bottomSheetClubDaySelected = uiState.value.currentFilter.clubDay.toString(),
         updateSelectedDeadLine = viewModel::updateSelectedDeadLine,
-        updateSelectedLocation = viewModel::updateSelectedLocation,
-        updateSelectedPreferDay = viewModel::updateSelectedPreferDay,
+        updateSelectedRegion = viewModel::updateSelectedRegion,
+        updateSelectedClubDay = viewModel::updateSelectedClubDay,
         modifier = modifier
             .padding(padding)
             .addFocusCleaner(focusManager)
@@ -118,20 +124,20 @@ fun AfterSearchRoute(
 
 @Composable
 fun AfterSearchScreen(
+    clubLoadState: ClubLoadState,
     selectedCategory: Int,
     updateSelectedCategory: (Int) -> Unit,
     inputSearchValue: String,
     updateInputSearch: (String) -> Unit,
-    filteredClub: List<FilteredClub>,
     navigateToBack: () -> Unit,
     showFilterBottomSheet: Boolean,
     updateBottomSheetShown: (Boolean) -> Unit,
     bottomSheetDeadLineSelected: String,
-    bottomSheetLocationSelected: String,
-    bottomSheetPreferDaySelected: String,
+    bottomSheetRegionSelected: String,
+    bottomSheetClubDaySelected: String,
     updateSelectedDeadLine: (DeadLine) -> Unit,
-    updateSelectedLocation: (Region) -> Unit,
-    updateSelectedPreferDay: (PreferDay) -> Unit,
+    updateSelectedRegion: (Region) -> Unit,
+    updateSelectedClubDay: (ClubDay) -> Unit,
     modifier: Modifier,
 ) {
 
@@ -180,22 +186,38 @@ fun AfterSearchScreen(
                 Spacer(modifier = Modifier.height(14.dp))
                 SecondClubFilter()
             }
-            itemsIndexed(items = filteredClub) { index, club ->
-                ClubSearchCard(
-                    data = ClubSearch(
-                        tags = listOf(club.category, club.region),
-                        profile = R.drawable.img_search_advertisement_banner,
-                        author = club.name,
-                        content = club.postTitle,
-                        dDay = club.dDay,
-                        viewCount = club.viewCount,
-                        commentCount = club.commentCount,
-                        poster = R.drawable.img_search_advertisement_banner,
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 15.dp)
-                        .padding(top = if (index == 0) 0.dp else 15.dp)
-                )
+
+            when (clubLoadState) {
+                ClubLoadState.Loading -> {
+                    items(4) { index ->
+                        ClubSearchCardSkeleton(
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(top = if (index == 0) 0.dp else 15.dp)
+                        )
+                    }
+                }
+
+                is ClubLoadState.Success -> {
+                    val clubs = clubLoadState.filteredClubs
+                    itemsIndexed(clubs) { index, club ->
+                        ClubSearchCard(
+                            data = ClubSearch(
+                                tags = listOf(club.category, club.region),
+                                profile = getImageResId(club.image),
+                                author = club.name,
+                                content = club.postTitle,
+                                dDay = club.dDay,
+                                viewCount = club.viewCount,
+                                commentCount = club.commentCount,
+                                poster = getImageResId(club.postImage),
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(top = if (index == 0) 0.dp else 15.dp)
+                        )
+                    }
+                }
             }
         }
         FilterBottomSheet(
@@ -206,12 +228,12 @@ fun AfterSearchScreen(
                 bottomSheetDeadLineSelected
             ),
             updateSelectedDeadLine = updateSelectedDeadLine,
-            bottomSheetLocationSelected = Region.Companion.labelFromName(bottomSheetLocationSelected),
-            updateSelectedLocation = updateSelectedLocation,
-            bottomSheetPreferDaySelected = PreferDay.Companion.labelFromName(
-                bottomSheetPreferDaySelected
+            bottomSheetRegionSelected = Region.Companion.labelFromName(bottomSheetRegionSelected),
+            updateSelectedRegion = updateSelectedRegion,
+            bottomSheetClubDaySelected = ClubDay.Companion.labelFromName(
+                bottomSheetClubDaySelected
             ),
-            updateSelectedPreferDay = updateSelectedPreferDay,
+            updateSelectedClubDay = updateSelectedClubDay,
         )
     }
 }
