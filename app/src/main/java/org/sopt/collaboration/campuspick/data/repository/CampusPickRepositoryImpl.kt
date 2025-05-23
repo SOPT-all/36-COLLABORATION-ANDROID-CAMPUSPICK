@@ -13,9 +13,7 @@ class CampusPickRepositoryImpl(
     }
 
     override suspend fun getPopularActivities(): Result<List<PopularActivity>> = runCatching {
-        campusPickService.getPopularActivities().data
-    }.mapCatching {
-        it.map {
+        campusPickService.getPopularActivities().data.map {
             PopularActivity(
                 id = it.id,
                 title = it.title,
