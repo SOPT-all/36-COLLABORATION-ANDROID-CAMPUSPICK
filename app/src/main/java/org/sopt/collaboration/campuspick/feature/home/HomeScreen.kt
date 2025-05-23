@@ -46,9 +46,14 @@ import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.customClickable
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
 import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
+import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
+import org.sopt.collaboration.campuspick.data.repository.CampusPickRepositoryImpl
 import org.sopt.collaboration.campuspick.domain.model.HomeEdu
 import org.sopt.collaboration.campuspick.domain.model.HomeIcon
+import org.sopt.collaboration.campuspick.domain.model.PopularActivity
+import org.sopt.collaboration.campuspick.domain.model.PopularActivityImage
 import org.sopt.collaboration.campuspick.domain.model.Popularity
+import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 import org.sopt.collaboration.campuspick.feature.home.HomeSideEffect.NavigateClub
 import org.sopt.collaboration.campuspick.feature.home.component.HomeHeader
 
@@ -56,8 +61,8 @@ import org.sopt.collaboration.campuspick.feature.home.component.HomeHeader
 fun HomeRoute(
     padding: PaddingValues,
     navigateToClub: () -> Unit,
-    viewModel: HomeViewModel = viewModel()
 ) {
+    val viewModel: HomeViewModel = viewModel(factory = ViewModelFactory())
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle{
@@ -66,20 +71,23 @@ fun HomeRoute(
                 NavigateClub -> navigateToClub()
             }
         }
+        viewModel.getPopularActivity()
     }
 
     HomeScreen(
         contentPadding = padding,
+        navigateToClub = viewModel::navigateToClub,
         state = uiState.value,
-        navigateToClub = viewModel::navigateToClub
+        popularContestList = viewModel.popularContestDummy
     )
 }
 
 @Composable
 fun HomeScreen(
     contentPadding: PaddingValues,
-    state: HomeState,
     navigateToClub: () -> Unit,
+    state: HomeState,
+    popularContestList: ImmutableList<Popularity>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -123,15 +131,15 @@ fun HomeScreen(
         item {
             PopularSection(
                 popularTitle = "인기 동아리",
-                contents = state.popularContestList.toImmutableList()
+                contents = popularContestList
             )
             Spacer(modifier = Modifier.height(20.dp))
         }
 
         item {
-            PopularSection(
+            PopularActivitySection(
                 popularTitle = "인기 대외활동",
-                contents = state.popularContestList.toImmutableList()
+                contents = state.popularActivity.toImmutableList()
             )
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -140,7 +148,7 @@ fun HomeScreen(
         item {
             PopularSection(
                 popularTitle = "인기 공모전",
-                contents = state.popularContestList.toImmutableList()
+                contents = popularContestList
             )
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -239,6 +247,48 @@ private fun HomeIconSection(
                         style = CampuspickTheme.typography.caption2
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PopularActivitySection(
+    popularTitle: String,
+    contents: ImmutableList<PopularActivity>
+) {
+    Column {
+        Text(
+            text = popularTitle,
+            style = CampuspickTheme.typography.heading4,
+            color = CampuspickTheme.colors.Black,
+            modifier = Modifier
+                .height(35.dp)
+                .padding(horizontal = 15.dp)
+        )
+
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 15.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items(contents, key = { "${popularTitle}-${it.id}" }) { content ->
+                CampuspickCard(
+                    cardBackgroundColor = CampuspickTheme.colors.Gray4,
+                    cardImage = painterResource(id = PopularActivityImage.getImageId(content.image)),
+                    imageHeight = 106.dp,
+                    cardTitle = content.title,
+                    cardContentHorizontalPadding = 6.dp,
+                    cardContentVerticalPadding = 4.dp,
+                    titleMetaSpacer = Modifier.height(6.dp),
+                    metaInfoContent = {
+                        HomeMetaIntoContent(
+                            viewCount = content.viewCount.toString(),
+                            commentCount = content.commentCount.toString()
+                        )
+                    },
+                    modifier = Modifier.height(172.dp)
+                )
             }
         }
     }
@@ -376,14 +426,4 @@ private fun EventSection(
                 .height(294.dp)
         )
     }
-}
-
-@DefaultPreview
-@Composable
-private fun HomeScreenPreview() {
-    HomeScreen(
-        contentPadding = PaddingValues(),
-        state = HomeState(),
-        navigateToClub = {},
-    )
 }
