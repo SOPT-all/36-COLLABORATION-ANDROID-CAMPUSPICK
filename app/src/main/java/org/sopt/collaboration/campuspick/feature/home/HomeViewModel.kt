@@ -1,15 +1,10 @@
 package org.sopt.collaboration.campuspick.feature.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
-import org.sopt.collaboration.campuspick.domain.model.PopularActivity
 import org.sopt.collaboration.campuspick.domain.model.Popularity
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
@@ -18,6 +13,7 @@ class HomeViewModel(private val campusPickRepository: CampusPickRepository) :
 
     init {
         getPopularActivity()
+        getPopularClub()
     }
 
     fun getPopularActivity() {
@@ -26,6 +22,17 @@ class HomeViewModel(private val campusPickRepository: CampusPickRepository) :
                 .onSuccess {
                     intent {
                         copy(popularActivity = it)
+                    }
+                }
+        }
+    }
+
+    fun getPopularClub(){
+        viewModelScope.launch {
+            campusPickRepository.getPopularClubs()
+                .onSuccess {
+                    intent {
+                        copy(popularClub = it)
                     }
                 }
         }

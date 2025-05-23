@@ -44,16 +44,15 @@ import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.CampuspickCard
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.customClickable
+import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
-import org.sopt.collaboration.campuspick.core.ui.preview.DefaultPreview
 import org.sopt.collaboration.campuspick.core.viewmodel.ViewModelFactory
-import org.sopt.collaboration.campuspick.data.repository.CampusPickRepositoryImpl
+import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 import org.sopt.collaboration.campuspick.domain.model.HomeEdu
 import org.sopt.collaboration.campuspick.domain.model.HomeIcon
 import org.sopt.collaboration.campuspick.domain.model.PopularActivity
 import org.sopt.collaboration.campuspick.domain.model.PopularActivityImage
 import org.sopt.collaboration.campuspick.domain.model.Popularity
-import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 import org.sopt.collaboration.campuspick.feature.home.HomeSideEffect.NavigateClub
 import org.sopt.collaboration.campuspick.feature.home.component.HomeHeader
 
@@ -65,13 +64,14 @@ fun HomeRoute(
     val viewModel: HomeViewModel = viewModel(factory = ViewModelFactory())
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffectWithLifecycle{
+    LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
-            when(sideEffect){
+            when (sideEffect) {
                 NavigateClub -> navigateToClub()
             }
         }
         viewModel.getPopularActivity()
+        viewModel.getPopularClub()
     }
 
     HomeScreen(
@@ -129,27 +129,18 @@ fun HomeScreen(
         }
 
         item {
-            PopularSection(
-                popularTitle = "인기 동아리",
-                contents = popularContestList
-            )
+            PopularClubSection(contents = state.popularClub.toImmutableList())
             Spacer(modifier = Modifier.height(20.dp))
         }
 
         item {
-            PopularActivitySection(
-                popularTitle = "인기 대외활동",
-                contents = state.popularActivity.toImmutableList()
-            )
+            PopularActivitySection(contents = state.popularActivity.toImmutableList())
             Spacer(modifier = Modifier.height(20.dp))
         }
 
 
         item {
-            PopularSection(
-                popularTitle = "인기 공모전",
-                contents = popularContestList
-            )
+            PopularContestSection(contents = popularContestList)
             Spacer(modifier = Modifier.height(20.dp))
         }
 
@@ -253,13 +244,12 @@ private fun HomeIconSection(
 }
 
 @Composable
-private fun PopularActivitySection(
-    popularTitle: String,
-    contents: ImmutableList<PopularActivity>
+private fun PopularClubSection(
+    contents: ImmutableList<ClubRecruitment>
 ) {
     Column {
         Text(
-            text = popularTitle,
+            text = "인기 도아리",
             style = CampuspickTheme.typography.heading4,
             color = CampuspickTheme.colors.Black,
             modifier = Modifier
@@ -272,7 +262,48 @@ private fun PopularActivitySection(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(contents, key = { "${popularTitle}-${it.id}" }) { content ->
+            items(contents, key = { it.id }) { content ->
+                CampuspickCard(
+                    cardBackgroundColor = CampuspickTheme.colors.Gray4,
+                    cardImage = painterResource(id = getImageResId(content.image)),
+                    imageHeight = 106.dp,
+                    cardTitle = content.title,
+                    cardContentHorizontalPadding = 6.dp,
+                    cardContentVerticalPadding = 4.dp,
+                    titleMetaSpacer = Modifier.height(6.dp),
+                    metaInfoContent = {
+                        HomeMetaIntoContent(
+                            viewCount = content.viewCount.toString(),
+                            commentCount = content.commentCount.toString()
+                        )
+                    },
+                    modifier = Modifier.height(172.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PopularActivitySection(
+    contents: ImmutableList<PopularActivity>
+) {
+    Column {
+        Text(
+            text = "인기 대외활동",
+            style = CampuspickTheme.typography.heading4,
+            color = CampuspickTheme.colors.Black,
+            modifier = Modifier
+                .height(35.dp)
+                .padding(horizontal = 15.dp)
+        )
+
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 15.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items(contents, key = { it.id }) { content ->
                 CampuspickCard(
                     cardBackgroundColor = CampuspickTheme.colors.Gray4,
                     cardImage = painterResource(id = PopularActivityImage.getImageId(content.image)),
@@ -295,13 +326,12 @@ private fun PopularActivitySection(
 }
 
 @Composable
-private fun PopularSection(
-    popularTitle: String,
+private fun PopularContestSection(
     contents: ImmutableList<Popularity>
 ) {
     Column {
         Text(
-            text = popularTitle,
+            text = "인기 동아리",
             style = CampuspickTheme.typography.heading4,
             color = CampuspickTheme.colors.Black,
             modifier = Modifier
@@ -314,7 +344,7 @@ private fun PopularSection(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(contents, key = { "${popularTitle}-${it.id}" }) { content ->
+            items(contents, key = { it.id }) { content ->
                 CampuspickCard(
                     cardBackgroundColor = CampuspickTheme.colors.Gray4,
                     cardImage = painterResource(id = content.image),
