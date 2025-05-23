@@ -20,6 +20,7 @@ fun NavGraphBuilder.homeNavGraph(
 ) {
     composable<MainTabRoute.Home> {
         HomeRoute(
+            padding = padding,
             navigateToClub = navigateToClub
         )
     }

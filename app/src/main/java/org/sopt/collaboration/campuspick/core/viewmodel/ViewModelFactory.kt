@@ -6,10 +6,17 @@ import org.sopt.collaboration.campuspick.data.api.ApiFactory
 import org.sopt.collaboration.campuspick.data.repository.CampusPickRepositoryImpl
 import org.sopt.collaboration.campuspick.feature.club.ClubViewModel
 import org.sopt.collaboration.campuspick.feature.aftersearch.AfterSearchViewModel
+import org.sopt.collaboration.campuspick.feature.home.HomeViewModel
 
 class ViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass) {
+
+            HomeViewModel::class.java -> {
+                HomeViewModel(
+                    CampusPickRepositoryImpl(ApiFactory.ServicePool.campusPickService)
+                ) as T
+            }
 
             ClubViewModel::class.java -> {
                 ClubViewModel(
