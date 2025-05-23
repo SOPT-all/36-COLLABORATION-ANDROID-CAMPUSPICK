@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
+import org.sopt.collaboration.campuspick.core.ui.navigation.Route
 import org.sopt.collaboration.campuspick.feature.club.ClubRoute
 
 fun NavController.navigateClub(navOptions: NavOptions) {
