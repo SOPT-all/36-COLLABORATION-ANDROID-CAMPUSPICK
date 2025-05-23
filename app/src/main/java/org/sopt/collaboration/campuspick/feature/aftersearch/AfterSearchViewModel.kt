@@ -95,9 +95,15 @@ class AfterSearchViewModel(private val campusPickRepository: CampusPickRepositor
         }
     }
 
-    fun updateBottomSheetShown(shown: Boolean) {
+    fun updateFilterBottomSheetShown(shown: Boolean) {
         intent {
             copy(showFilterBottomSheet = shown)
+        }
+    }
+
+    fun updateClubSortBottomSheetShown(shown: Boolean) {
+        intent {
+            copy(showClubSortBottomSheet = shown)
         }
     }
 
