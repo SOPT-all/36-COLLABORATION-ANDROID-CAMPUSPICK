@@ -1,7 +1,9 @@
 package org.sopt.collaboration.campuspick.domain.model
 
+import kotlinx.serialization.Serializable
 import org.sopt.collaboration.campuspick.R
 
+@Serializable
 data class PopularActivity(
     val id: Int,
     val title: String,

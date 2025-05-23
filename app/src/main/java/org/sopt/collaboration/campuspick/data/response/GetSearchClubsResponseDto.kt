@@ -27,12 +27,3 @@ data class RecruitPost(
     val commentCount: Int,
     val dDay: Int
 )
-
-@Serializable
-data class PopularActivity(
-    val id: Int,
-    val title: String,
-    val viewCount: Int,
-    val commentCount: Int,
-    val image: String
-)
