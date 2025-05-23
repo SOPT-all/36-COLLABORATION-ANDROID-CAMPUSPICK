@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,9 +47,6 @@ fun CampuspickCard(
         modifier = modifier
             .width(155.dp)
             .clip(RoundedCornerShape(6.dp)),
-        colors = CardDefaults.cardColors(
-            contentColor = cardBackgroundColor
-        )
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -65,6 +61,7 @@ fun CampuspickCard(
             )
 
             CardContent(
+                cardBackgroundColor = cardBackgroundColor,
                 cardTitle = cardTitle,
                 cardContentHorizontalPadding = cardContentHorizontalPadding,
                 cardContentVerticalPadding = cardContentVerticalPadding,
@@ -78,6 +75,7 @@ fun CampuspickCard(
 
 @Composable
 private fun CardContent(
+    cardBackgroundColor: Color,
     cardTitle: String,
     cardContentHorizontalPadding: Dp,
     cardContentVerticalPadding: Dp,
@@ -87,7 +85,8 @@ private fun CardContent(
 ) {
     Column(
         modifier = modifier
-            .background(CampuspickTheme.colors.Gray5)
+            .background(cardBackgroundColor)
+            .fillMaxSize()
             .padding(
                 horizontal = cardContentHorizontalPadding,
                 vertical = cardContentVerticalPadding
@@ -110,47 +109,45 @@ private fun CardContent(
 @DefaultPreview
 @Composable
 private fun CampuspickCardPreview() {
-    CampuspickTheme {
-        CampuspickCard(
-            cardBackgroundColor = CampuspickTheme.colors.Gray5,
-            cardImage = painterResource(R.drawable.img_activity_lisolab),
-            imageHeight = 155.dp,
-            cardTitle = "⭐\uFE0F꿈꾸는 과학 38⭐\uFE0F 신입부원을 상시 모집합니다!",
-            cardContentHorizontalPadding = 6.dp,
-            cardContentVerticalPadding = 4.dp,
-            titleMetaSpacer = Modifier.height(6.dp),
-            metaInfoContent = {
-                Row(
+    CampuspickCard(
+        cardBackgroundColor = CampuspickTheme.colors.Gray5,
+        cardImage = painterResource(R.drawable.img_activity_lisolab),
+        imageHeight = 155.dp,
+        cardTitle = "⭐\uFE0F꿈꾸는 과학 38⭐\uFE0F 신입부원을 상시 모집합니다!",
+        cardContentHorizontalPadding = 6.dp,
+        cardContentVerticalPadding = 4.dp,
+        titleMetaSpacer = Modifier.height(6.dp),
+        metaInfoContent = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.Top
+            ) {
+                Text(
+                    text = "D-67",
+                    color = CampuspickTheme.colors.Gray2,
+                    style = CampuspickTheme.typography.caption3
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Image(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Text(
-                        text = "D-67",
-                        color = CampuspickTheme.colors.Gray2,
-                        style = CampuspickTheme.typography.caption3
-                    )
+                        .size(12.dp),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_post_shown),
+                    contentDescription = ""
+                )
 
-                    Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(2.dp))
 
-                    Image(
-                        modifier = Modifier
-                            .size(12.dp),
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_post_shown),
-                        contentDescription = ""
-                    )
-
-                    Spacer(modifier = Modifier.width(2.dp))
-
-                    Text(
-                        text = "2,553",
-                        color = CampuspickTheme.colors.Gray2,
-                        style = CampuspickTheme.typography.caption3
-                    )
-                }
-            },
-            modifier = Modifier
-                .height(217.dp)
-        )
-    }
+                Text(
+                    text = "2,553",
+                    color = CampuspickTheme.colors.Gray2,
+                    style = CampuspickTheme.typography.caption3
+                )
+            }
+        },
+        modifier = Modifier
+            .height(217.dp)
+    )
 }
