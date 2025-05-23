@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
-import org.sopt.collaboration.campuspick.domain.model.ClubImage
+import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.domain.model.ClubRanking
 
 @Composable
@@ -53,7 +53,7 @@ fun ClubRankingCard(
         }
         Spacer(Modifier.width(20.dp))
         Image(
-            painter = painterResource(ClubImage.getImageId(data.clubImage)),
+            painter = painterResource(getImageResId(data.clubImage)),
             contentDescription = null,
             modifier = Modifier
                 .size(57.dp)

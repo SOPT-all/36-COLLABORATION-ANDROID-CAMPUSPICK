@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import org.sopt.collaboration.campuspick.R
 import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.CampuspickCard
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
-import org.sopt.collaboration.campuspick.domain.model.ClubRecruitImage
+import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.domain.model.ClubRecruitment
 
 @Composable
@@ -28,7 +28,7 @@ fun ClubRecruitmentCard(
 ) {
     CampuspickCard(
         cardBackgroundColor = CampuspickTheme.colors.Gray5,
-        cardImage = painterResource(ClubRecruitImage.getImageId(data.image)),
+        cardImage = painterResource(getImageResId(data.image)),
         imageHeight = 155.dp,
         cardTitle = data.title,
         cardContentHorizontalPadding = 6.dp,
