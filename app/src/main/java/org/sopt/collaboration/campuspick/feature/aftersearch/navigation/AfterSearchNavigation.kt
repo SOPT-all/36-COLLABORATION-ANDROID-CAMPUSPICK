@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
+import org.sopt.collaboration.campuspick.core.ui.navigation.Route
 import org.sopt.collaboration.campuspick.feature.aftersearch.AfterSearchRoute
 
 fun NavController.navigateAfterSearch(navOptions: NavOptions) {
@@ -16,7 +16,7 @@ fun NavController.navigateAfterSearch(navOptions: NavOptions) {
 
 fun NavGraphBuilder.afterSearchNavGraph(
     padding: PaddingValues,
-    navigateToBack: () -> Unit,
+    navigateBackToClub: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     composable<Route.AfterSearch> { entry ->
@@ -33,7 +33,7 @@ fun NavGraphBuilder.afterSearchNavGraph(
             deadline = deadlineType,
             region = region,
             clubDay = clubDay,
-            navigateToBack = navigateToBack,
+            navigateBackToClub = navigateBackToClub,
             modifier = modifier
         )
     }

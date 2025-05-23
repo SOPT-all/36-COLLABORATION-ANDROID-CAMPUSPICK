@@ -1,9 +1,9 @@
 package org.sopt.collaboration.campuspick.feature.search
 
 import org.sopt.collaboration.campuspick.core.ui.base.BaseViewModel
-import org.sopt.collaboration.campuspick.domain.model.DeadLine
-import org.sopt.collaboration.campuspick.domain.model.PreferDay
-import org.sopt.collaboration.campuspick.domain.model.Region
+import org.sopt.collaboration.campuspick.core.ui.model.DeadLine
+import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
+import org.sopt.collaboration.campuspick.core.ui.model.Region
 
 class SearchViewModel : BaseViewModel<SearchState, SearchSideEffect>(SearchState()) {
 
@@ -45,13 +45,13 @@ class SearchViewModel : BaseViewModel<SearchState, SearchSideEffect>(SearchState
         }
     }
 
-    fun updateSelectedPreferDay(preferDay: PreferDay) {
+    fun updateSelectedPreferDay(clubDay: ClubDay) {
         intent {
             copy(
-                filterPreferDay = if (uiState.value.filterPreferDay == preferDay) {
-                    PreferDay.EMPTY
+                filterClubDay = if (uiState.value.filterClubDay == clubDay) {
+                    ClubDay.EMPTY
                 } else {
-                    preferDay
+                    clubDay
                 }
             )
         }
@@ -64,7 +64,7 @@ class SearchViewModel : BaseViewModel<SearchState, SearchSideEffect>(SearchState
     fun navigateToAfterSearchWithBottomSheet() {
         if (uiState.value.filterDeadLine != DeadLine.EMPTY ||
             uiState.value.filterRegion != Region.EMPTY ||
-            uiState.value.filterPreferDay != PreferDay.EMPTY
+            uiState.value.filterClubDay != ClubDay.EMPTY
         ) postSideEffect(SearchSideEffect.NavigateAfterSearch)
     }
 

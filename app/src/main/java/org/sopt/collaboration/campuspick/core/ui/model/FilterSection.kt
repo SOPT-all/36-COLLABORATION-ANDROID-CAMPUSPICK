@@ -1,4 +1,4 @@
-package org.sopt.collaboration.campuspick.domain.model
+package org.sopt.collaboration.campuspick.core.ui.model
 
 import androidx.compose.runtime.Composable
 

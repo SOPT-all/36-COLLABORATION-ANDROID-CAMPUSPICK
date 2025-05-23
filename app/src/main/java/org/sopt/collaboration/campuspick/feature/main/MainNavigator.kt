@@ -9,7 +9,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.MainTabRoute
 import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.home.navigation.navigateHome
@@ -25,7 +24,7 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = MainTabRoute.Home
+    val startDestination = Route.Search
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
