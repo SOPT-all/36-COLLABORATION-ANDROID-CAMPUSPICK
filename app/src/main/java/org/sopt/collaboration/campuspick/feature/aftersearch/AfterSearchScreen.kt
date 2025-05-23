@@ -40,6 +40,7 @@ import org.sopt.collaboration.campuspick.core.designsystem.component.cardview.Cl
 import org.sopt.collaboration.campuspick.core.designsystem.component.tabrow.ClubCategoryTabRow
 import org.sopt.collaboration.campuspick.core.designsystem.theme.CampuspickTheme
 import org.sopt.collaboration.campuspick.core.ui.extension.addFocusCleaner
+import org.sopt.collaboration.campuspick.core.ui.extension.customClickable
 import org.sopt.collaboration.campuspick.core.ui.image.getImageResId
 import org.sopt.collaboration.campuspick.core.ui.lifecycle.LaunchedEffectWithLifecycle
 import org.sopt.collaboration.campuspick.core.ui.model.ClubDay
@@ -108,7 +109,9 @@ fun AfterSearchRoute(
         updateInputSearch = viewModel::updateInputSearch,
         navigateToBack = viewModel::navigateToBack,
         showFilterBottomSheet = uiState.value.showFilterBottomSheet,
-        updateBottomSheetShown = viewModel::updateBottomSheetShown,
+        updateBottomSheetShown = viewModel::updateFilterBottomSheetShown,
+        showClubSortBottomSheet = uiState.value.showClubSortBottomSheet,
+        updateClubSortBottomSheetShown = viewModel::updateClubSortBottomSheetShown,
         bottomSheetDeadLineSelected = uiState.value.currentFilter.deadline.toString(),
         bottomSheetRegionSelected = uiState.value.currentFilter.region.toString(),
         bottomSheetClubDaySelected = uiState.value.currentFilter.clubDay.toString(),
@@ -132,6 +135,8 @@ fun AfterSearchScreen(
     navigateToBack: () -> Unit,
     showFilterBottomSheet: Boolean,
     updateBottomSheetShown: (Boolean) -> Unit,
+    showClubSortBottomSheet: Boolean,
+    updateClubSortBottomSheetShown: (Boolean) -> Unit,
     bottomSheetDeadLineSelected: String,
     bottomSheetRegionSelected: String,
     bottomSheetClubDaySelected: String,
@@ -184,7 +189,9 @@ fun AfterSearchScreen(
             }
             item {
                 Spacer(modifier = Modifier.height(14.dp))
-                SecondClubFilter()
+                SecondClubFilter(
+                    updateClubSortBottomSheetShown,
+                )
             }
 
             when (clubLoadState) {
@@ -235,11 +242,17 @@ fun AfterSearchScreen(
             ),
             updateSelectedClubDay = updateSelectedClubDay,
         )
+        ClubSortBottomSheet(
+            showClubSortBottomSheet = showClubSortBottomSheet,
+            onDismiss = updateClubSortBottomSheetShown,
+            )
     }
 }
 
 @Composable
-fun SecondClubFilter() {
+fun SecondClubFilter(
+    updateClubSortBottomSheetShown: (Boolean) -> Unit,
+) {
     Row(
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
@@ -265,16 +278,24 @@ fun SecondClubFilter() {
             thickness = 1.dp,
             color = CampuspickTheme.colors.Gray3,
         )
-        Text(
-            text = "최신순",
-            style = CampuspickTheme.typography.caption2,
-            color = CampuspickTheme.colors.Black,
-            modifier = Modifier.padding(end = 3.dp)
-        )
-        Icon(
-            painter = painterResource(R.drawable.ic_under_arrow),
-            contentDescription = "under arrow",
-            tint = Color.Unspecified,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.customClickable(
+                rippleEnabled = false,
+                onClick = { updateClubSortBottomSheetShown(true) },
+            )
+        ) {
+            Text(
+                text = "최신순",
+                style = CampuspickTheme.typography.caption2,
+                color = CampuspickTheme.colors.Black,
+                modifier = Modifier.padding(end = 3.dp)
+            )
+            Icon(
+                painter = painterResource(R.drawable.ic_under_arrow),
+                contentDescription = "under arrow",
+                tint = Color.Unspecified,
+            )
+        }
     }
 }
