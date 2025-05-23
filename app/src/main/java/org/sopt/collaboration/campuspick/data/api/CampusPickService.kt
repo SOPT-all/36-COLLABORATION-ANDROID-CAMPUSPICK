@@ -2,6 +2,7 @@ package org.sopt.collaboration.campuspick.data.api
 
 import org.sopt.collaboration.campuspick.core.network.BaseResponse
 import org.sopt.collaboration.campuspick.data.response.GetSearchClubsResponseDto
+import org.sopt.collaboration.campuspick.data.response.PopularActivity
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,7 +11,7 @@ interface CampusPickService {
     suspend fun getPopularClubs()
 
     @GET("/$API/$V1/$ACTIVITIES/$POPULAR")
-    suspend fun getPopularActivities()
+    suspend fun getPopularActivities(): BaseResponse<List<PopularActivity>>
 
     @GET("/$API/$V1/$CLUBS/$RANK")
     suspend fun getRankClubs()

@@ -9,8 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.MainTabRoute
-import org.sopt.collaboration.campuspick.core.designsystem.navigation.Route
+import org.sopt.collaboration.campuspick.core.ui.navigation.MainTabRoute
+import org.sopt.collaboration.campuspick.core.ui.navigation.Route
 import org.sopt.collaboration.campuspick.domain.model.SearchType
 import org.sopt.collaboration.campuspick.feature.home.navigation.navigateHome
 import org.sopt.collaboration.campuspick.feature.others.navigation.navigateChatting
@@ -57,6 +57,14 @@ internal class MainNavigator(
     fun navigateBack() {
         navController.popBackStack()
     }
+
+    fun navigateBackToClub() {
+        navController.popBackStack(
+            route = Route.Club,
+            inclusive = false
+        )
+    }
+
 
     fun navigateToClub() {
         navController.navigate(Route.Club)

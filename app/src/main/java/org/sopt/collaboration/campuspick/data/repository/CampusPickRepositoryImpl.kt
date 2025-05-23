@@ -2,6 +2,7 @@ package org.sopt.collaboration.campuspick.data.repository
 
 import org.sopt.collaboration.campuspick.data.api.CampusPickService
 import org.sopt.collaboration.campuspick.domain.model.FilteredClub
+import org.sopt.collaboration.campuspick.domain.model.PopularActivity
 import org.sopt.collaboration.campuspick.domain.repository.CampusPickRepository
 
 class CampusPickRepositoryImpl(
@@ -11,8 +12,16 @@ class CampusPickRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPopularActivities() {
-        TODO("Not yet implemented")
+    override suspend fun getPopularActivities(): Result<List<PopularActivity>> = runCatching {
+        campusPickService.getPopularActivities().data.map {
+            PopularActivity(
+                id = it.id,
+                title = it.title,
+                viewCount = it.viewCount,
+                commentCount = it.commentCount,
+                image = it.image
+            )
+        }
     }
 
     override suspend fun getRankClubs() {
