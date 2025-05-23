@@ -249,7 +249,7 @@ private fun PopularClubSection(
 ) {
     Column {
         Text(
-            text = "인기 도아리",
+            text = "인기 동아리",
             style = CampuspickTheme.typography.heading4,
             color = CampuspickTheme.colors.Black,
             modifier = Modifier
@@ -331,7 +331,7 @@ private fun PopularContestSection(
 ) {
     Column {
         Text(
-            text = "인기 동아리",
+            text = "인기 공모전",
             style = CampuspickTheme.typography.heading4,
             color = CampuspickTheme.colors.Black,
             modifier = Modifier
@@ -421,15 +421,24 @@ private fun EventSection(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "이벤트")
+            Text(
+                text = "이벤트",
+                style = CampuspickTheme.typography.heading4,
+                color = CampuspickTheme.colors.Black
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(text = "더보기")
+            Text(
+                text = "더보기",
+                style = CampuspickTheme.typography.caption3,
+                color = CampuspickTheme.colors.Gray2
+            )
 
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_next_arrow),
                 contentDescription = "see more",
+                tint = CampuspickTheme.colors.Gray2,
                 modifier = Modifier.size(12.dp)
             )
         }
